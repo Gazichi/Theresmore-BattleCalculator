@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theresmore Battle Simulator 1.2.2 – Kampf & Wirtschaft</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0e13;--panel:#121720;--panel2:#171d27;--line:#2b3442;--text:#eef2f7;--muted:#9aa8b8;--accent:#e67e22;--good:#49b675;--bad:#e05c64;--warn:#e5b84b;--blue:#5da9e9}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1260px;margin:auto;padding:20px}.top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}.top h1{font-size:clamp(24px,4vw,38px);margin:0 0 4px}.sub{color:var(--muted);font-size:14px}.badges{display:flex;gap:8px;flex-wrap:wrap}.badge{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 10px;font-size:12px}.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}.card h2{font-size:18px;margin:0 0 12px}.card h3{font-size:15px;margin:0 0 8px}.stat .v{font-weight:800;font-size:22px}.stat .k{color:var(--muted);font-size:12px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field label,.label{font-size:12px;color:var(--muted)}input,select,textarea{background:#0f141c;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:9px 10px;min-height:42px;max-width:100%}textarea{width:100%;resize:vertical}.grow{flex:1 1 240px}.btn{border:1px solid var(--line);border-radius:9px;background:#1a222d;color:var(--text);padding:9px 13px;min-height:42px}.btn:hover{border-color:#526174}.primary{border-color:#b95f14;background:var(--accent);color:#181008;font-weight:800}.danger{border-color:#6f3238;color:#ffb5ba}.small{font-size:12px;padding:6px 9px;min-height:34px}.muted{color:var(--muted)}.ok{color:var(--good)}.err{color:var(--bad)}.warn{color:var(--warn)}.section-gap{margin-top:14px}.army-list{display:grid;gap:8px}.unit{border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:10px}.unit-head{display:flex;gap:10px;justify-content:space-between;align-items:center}.unit-name{font-weight:700}.meta{font-size:12px;color:var(--muted)}.unit-fields{display:grid;grid-template-columns:110px repeat(4,minmax(70px,1fr));gap:8px;margin-top:8px;align-items:end}.readonly{min-height:39px;border:1px solid #252e39;border-radius:8px;padding:8px;background:#10151d;font-weight:700}.order-btns{display:flex;gap:4px}.iconbtn{width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:#111821;color:var(--text)}.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:14px}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.tab{border:1px solid var(--line);background:#111821;color:var(--muted);border-radius:8px;padding:7px 10px}.tab.active{color:var(--text);border-color:var(--accent)}.hidden{display:none!important}.report{border:1px solid var(--line);border-radius:12px;padding:14px;background:#0f141c}.result-title{font-size:28px;font-weight:900}.result-title.win{color:var(--good)}.result-title.lose{color:var(--bad)}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:600}.scroll{overflow:auto}.bar{height:8px;background:#202936;border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;background:var(--accent)}.notice{border-left:3px solid var(--accent);padding:10px 12px;background:#151a22;border-radius:0 8px 8px 0;font-size:13px}.footer{color:var(--muted);font-size:12px;margin:18px 2px 4px}.footer a{color:#9bcdf7}.progress{height:8px;border-radius:99px;background:#222b37;overflow:hidden;margin-top:8px}.progress>span{height:100%;display:block;background:var(--accent);width:0}.pill{display:inline-block;border-radius:999px;padding:2px 7px;font-size:11px;border:1px solid var(--line);margin-right:4px}.type1{color:#9dd3ff}.type2{color:#ffb1a9}.type3{color:#bce0b2}.type4{color:#e7c7ff}@media(max-width:900px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.split,.g2{grid-template-columns:1fr}.unit-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.wrap{padding:12px}.g4{grid-template-columns:1fr 1fr}.unit-fields{grid-template-columns:1fr 1fr}.top h1{font-size:25px}.stat .v{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>Theresmore Battle Simulator</h1><div class="sub">Standalone-Version fuer Theresmore 1.2.2 · Angriff & Verteidigung · Unterhalt / Army Cap · 156 Kaempfe · Preis/Leistung-Optimizer</div></div>
+    <div class="badges"><span class="badge">Save Import + Copy/Paste</span><span class="badge">Alle Gegner</span><span class="badge">Angriff / Verteidigung</span><span class="badge">Garrison + Settlement Defense</span><span class="badge">Battle Order</span><span class="badge">Splash / Trample</span><span class="badge">Difficulty</span><span class="badge">Preis/Leistung Optimizer</span><span class="badge">Unterhalt / Army Cap</span></div>
+  </div>
+
+  <div class="grid g4">
+    <div class="card stat"><div class="k">Save-Version</div><div class="v" id="sVersion">1.2.2</div></div>
+    <div class="card stat"><div class="k" id="sArmyLabel">Angriffsarmee</div><div class="v" id="sArmy">756</div></div>
+    <div class="card stat"><div class="k" id="sTypesLabel">Einheitenarten</div><div class="v" id="sTypes">17</div></div>
+    <div class="card stat"><div class="k">Aktueller Gegner</div><div class="v" style="font-size:16px" id="sEnemy">Orc Horith Citadel</div></div>
+  </div>
+
+  <div class="card section-gap">
+    <h2>1 · Spielstand</h2>
+    <div class="notice">Du kannst den Inhalt deiner exportierten TXT-Datei direkt hier hineinkopieren. Alles wird nur lokal in diesem Browser verarbeitet und nicht hochgeladen.</div>
+    <div class="field section-gap"><label>Save per Copy &amp; Paste</label><textarea id="saveText" rows="7" spellcheck="false" placeholder="Kompletten Inhalt der Theresmore-TXT-Datei hier einfuegen (z. B. NoIgjAdATNIDQG8...)"></textarea></div>
+    <div class="row section-gap">
+      <button class="btn primary" id="importText">Eingefuegten Save importieren</button>
+      <button class="btn" id="clearSaveText">Textfeld leeren</button>
+      <span class="sub">Tipp: Nach dem Einfuegen funktioniert auch Strg+Enter.</span>
+    </div>
+    <details class="section-gap"><summary>Alternativ TXT-Datei auswaehlen</summary><div class="row section-gap"><div class="field grow"><label>Theresmore Save-Datei</label><input id="saveFile" type="file" accept=".txt,text/plain,.json,application/json"></div><button class="btn" id="importFile">Datei importieren</button><button class="btn" id="restoreCurrent">Aktuellen Test-Save laden</button></div></details>
+    <div id="saveStatus" class="sub section-gap">Vorgeladener Save: Away 756 · Garrison 0 · Settlement 615 ATT / 1’212 DEF · 30 freigeschaltete Kampfeinheiten mit Preis-Daten · Army Cap 757</div>
+  </div>
+
+  <div class="card section-gap">
+    <h2>2 · Kampfmodus &amp; Gegner</h2>
+    <div class="row">
+      <div class="field" style="min-width:210px"><label>Kampfmodus</label><select id="battleMode"><option value="attack">Angriff – Away-Armee</option><option value="defense">Verteidigung – Garrison + Stadt</option></select></div>
+      <div class="field grow"><label>Gegner suchen</label><input id="enemySearch" placeholder="z. B. Oasis, Orc, Titan, Lich ..."></div>
+      <div class="field" style="min-width:min(100%,360px);flex:2 1 360px"><label>Gegner / Kampf</label><select id="enemyPreset"></select></div>
+      <div class="field"><label>Schwierigkeit</label><select id="difficulty"><option value="0">Normal ×1</option><option value="1">Hard</option><option value="2">Impossible</option><option value="3">God</option></select></div>
+      <button class="btn" id="loadEnemy">Gegner laden</button>
+    </div>
+    <div id="modeInfo" class="notice section-gap"><b>Angriff:</b> Verwendet die Away-Armee aus dem Save und die Battle Order <code>armyOrder.away</code>.</div>
+    <div class="sub section-gap"><b id="enemyDbCount">156 Kaempfe</b> in der Datenbank: Fundorte/Exploration, Fraktionen/Story sowie Event- und versteckte Kaempfe. Difficulty skaliert nur nicht-limitierte Gegnerzahlen: Hard 1.5×1.1, Impossible 2×1.2, God 4.5×1.3.</div>
+  </div>
+
+  <div class="split section-gap">
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><div><h2 style="margin-bottom:2px" id="playerHeading">3 · Deine Angriffsarmee</h2><div class="sub" id="playerSub">Away-Einheiten · effektive ATT/DEF inklusive Save-Modifier</div></div><label class="row" style="font-size:13px"><input id="useOrder" type="checkbox" checked style="min-height:auto;width:18px;height:18px"> Battle Order verwenden</label></div>
+      <div class="row section-gap">
+        <div class="field grow"><label>Einheit hinzufuegen</label><select id="addUnitSelect"></select></div>
+        <div class="field"><label>Anzahl</label><input id="addUnitQty" type="number" min="1" value="1" style="width:100px"></div>
+        <button class="btn" id="addUnit">Hinzufuegen</button>
+      </div>
+      <div id="defenseSummary" class="notice section-gap hidden"></div>
+      <details id="defenseBuffDetails" class="section-gap hidden"><summary>Stadtverteidigungs-Buffs anzeigen</summary><div id="defenseBuffList" class="section-gap"></div></details>
+      <div id="playerList" class="army-list section-gap"></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><div><h2 style="margin-bottom:2px">Gegnerarmee</h2><div class="sub" id="enemyInfo"></div></div><button class="btn small danger" id="clearEnemy">Leeren</button></div>
+      <div id="enemyList" class="army-list section-gap"></div>
+      <details class="section-gap"><summary>Eigene Gegner-Einheit hinzufuegen</summary>
+        <div class="grid g2 section-gap">
+          <div class="field"><label>Name</label><input id="eName" value="Custom Enemy"></div><div class="field"><label>Anzahl</label><input id="eQty" type="number" min="1" value="1"></div>
+          <div class="field"><label>ATT</label><input id="eAtk" type="number" min="0" value="10"></div><div class="field"><label>DEF</label><input id="eDef" type="number" min="1" value="10"></div>
+          <div class="field"><label>Order</label><select id="eOrder"><option>1</option><option>2</option><option>3</option></select></div><div class="field"><label>Typ</label><select id="eCat"><option value="1">Ranged</option><option value="2">Shock</option><option value="3">Tank</option><option value="4">Rider</option></select></div>
+          <div class="field"><label>Splash</label><input id="eSplash" type="number" min="1" value="1"></div><div class="field"><label>Trample %</label><input id="eTrample" type="number" min="0" max="100" value="0"></div>
+        </div><button class="btn section-gap" id="addEnemy">Gegner hinzufuegen</button>
+      </details>
+    </div>
+  </div>
+
+  <div class="card section-gap">
+    <h2>4 · Simulation</h2>
+    <div class="row">
+      <button class="btn primary" id="simulate">Kampf simulieren</button>
+      <button class="btn" id="resetSimulation">Simulation zuruecksetzen</button>
+      <button class="btn" id="optimize">Optimale Preis/Leistung berechnen</button>
+      <button class="btn" id="applyOptimized" disabled>Optimierte Armee uebernehmen</button>
+      <span id="simStatus" class="sub"></span>
+    </div>
+    <div id="optimizerBox" class="hidden section-gap">
+      <div class="notice" id="optimizerNotice"><b>Preis/Leistung:</b> Der Optimizer prueft alle im Save freigeschalteten Kampfeinheiten. Rekrutierungskosten werden relativ zu deinen aktuellen Ressourcen-Caps gewichtet; dadurch sind unterschiedliche Ressourcen vergleichbar. Jede gefundene Armee wird mit derselben Kampflogik nochmals verifiziert. Das ist eine starke Heuristik, aber kein mathematischer Globalbeweis.</div>
+      <div class="sub section-gap" id="optimizerStatus">Optimizer...</div><div class="progress"><span id="optimizerProgress"></span></div>
+      <div id="optimizerResult" class="section-gap"></div>
+    </div>
+    <div id="result" class="section-gap hidden"></div>
+  </div>
+
+  <div class="card section-gap" id="economyCard">
+    <h2>5 · Unterhalt &amp; Army Cap</h2>
+    <div class="notice"><b>Ausgewaehlter Build:</b> Diese Auswertung verwendet immer exakt die Einheiten und Mengen, die du oben gerade eingestellt hast. Aenderst du den Build oder uebernimmst einen Optimizer-Build, werden Army Cap und Unterhalt sofort aktualisiert.</div>
+    <div class="grid g2 section-gap">
+      <div class="stat"><div class="k">Army Cap Build</div><div class="v" id="ecoCapNow">—</div><div class="sub" id="ecoCapNowSub"></div></div>
+      <div class="stat"><div class="k">Cap Reserve</div><div class="v" id="ecoCapPlan">—</div><div class="sub" id="ecoCapPlanSub"></div></div>
+    </div>
+    <div id="ecoCapWarning" class="notice section-gap"></div>
+
+    <h3 class="section-gap">Gesamt-Unterhalt des ausgewaehlten Builds</h3>
+    <div id="ecoTotalUpkeep" class="notice"></div>
+
+    <details class="section-gap" open><summary>Unterhalt pro Einheit</summary><div id="ecoUnitTable" class="scroll section-gap"></div></details>
+  </div>
+
+  <div class="footer">Kampflogik basiert auf Theresmore 1.2.2 / aktuellem Theresmore-Automation-Code: Away-Armee im Angriff, Garrison = Gesamtbestand − Away in der Verteidigung, Settlement Defenses mit Stadt-/Spell-Modifiern, Kategorie-Vorteil ×2, Splash, Trample, Battle Order und gleichzeitige Rundenverluste. Gegnerdatenbank: 156 Kaempfe. Der Preis/Leistung-Optimizer verwendet die Rekrutierungskosten (req) der freigeschalteten Einheiten und die Ressourcen-Caps des importierten Saves. Die Unterhalts- und Army-Cap-Auswertung verwendet immer den aktuell oben ausgewaehlten Build. <a href="https://www.theresmoregame.com/play/" target="_blank" rel="noreferrer">Theresmore</a> · <a href="https://greasyfork.org/en/scripts/556684-theresmore-automation/code" target="_blank" rel="noreferrer">Referenzcode</a></div>
+</div>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id); const CAT={0:'Special',1:'Ranged',2:'Shock',3:'Tank',4:'Rider'};
+const UNIT_ROWS=[
+['archer','Archer',3,2,3,1,1,0],['battering_ram','Battering Ram',14,2,3,1,2,0],['crossbowman','Crossbowman',11,6,3,1,1,0],['trebuchet','Trebuchet',28,3,3,1,3,0],['white_company','White Company',18,11,3,1,1,0],['strategist','Strategist',72,12,3,1,4,0],['mage_u','Mage',48,1,3,1,3,0],['arquebusier','Arquebusier',16,7,3,1,1,0],['bombard','Bombard',42,4,3,1,4,0],['cannon','Cannon',88,8,3,1,5,0],['artillery','Artillery',160,15,3,1,6,0],['archmage_u','Archmage',260,120,3,1,7,0],['ranger','Ranger',22,15,3,1,3,0],['elf_warrior','Elf Warrior',62,55,3,1,3,0],['marksman','Marksman',35,15,3,1,1,0],['longbowman','Longbowman',91,2,3,1,2,0],['machine_gun_u','Machine Gun',90,35,3,1,1,0],
+['warrior','Warrior',8,8,2,2,1,0],['mercenary_veteran','Mercenary Veteran',12,8,1,2,1,0],['heavy_warrior','Heavy Warrior',12,12,2,2,1,0],['canava_guard','Canava Guard',15,15,2,2,1,50],['man_at_arms','Man at Arms',18,14,2,2,1,0],['line_infantry','Line Infantry',34,22,2,2,1,0],['jager','Jager',82,18,2,2,1,75],['colonial_militia','Colonial Militia',7,8,1,2,1,0],['rifleman_u','Rifleman',68,55,2,2,1,0],['battle_angel','Battle Angel',38,36,2,2,1,0],['commander','Commander',30,26,3,2,1,100],['tamed_djinn','Tamed Djinn',40,40,2,2,4,0],['general','General',60,100,3,2,1,100],['seraphim','Seraphim',450,400,2,2,1,100],['nikharul_soulstealer','Nikharul Soulstealer',1200,150,2,2,8,0],
+['spearman','Spearman',2,7,1,3,1,0],['phalanx','Phalanx',6,20,1,3,1,0],['warrior_monk','Monk',3,13,1,3,1,0],['shieldbearer','Shieldbearer',5,23,1,3,1,0],['priest','Priest',1,36,2,3,1,0],['sacred_golem','Sacred Golem',8,22,1,3,1,50],['armored_caravan_u','Armored Caravan',3,44,2,3,1,50],['cleric','Cleric',8,24,2,3,1,0],['juggernaut','Juggernaut',15,50,1,3,1,50],['paladin','Paladin',28,56,1,3,1,0],['behemoth','Behemoth',24,98,1,3,1,100],['ancient_balor','Ancient Balor',150,750,1,3,8,0],['smuggler','Smuggler',2,52,1,3,1,0],['mana_fortress_u','Mana Fortress',20,2250,1,3,12,0],['high_prelate_u','High Prelate',400,900,3,3,7,0],
+['light_cavarly','Light Cavalry',10,4,2,4,1,60],['knight','Knight',26,22,2,4,1,70],['cataphract','Cataphract',18,48,2,4,1,100],['cuirassier','Cuirassier',36,28,2,4,1,80],['steel_rider','Steel Rider',52,44,2,4,1,90],['cpt_galliard','Cpt. Galliard',80,65,2,4,1,100],['avatar_fate_u','Avatar of Fate',1250,1000,2,4,5,0],['vaelgoroth_u','Vaelgoroth Crimson Doom',3200,3600,3,4,15,0]
+];
+const UNITS=Object.fromEntries(UNIT_ROWS.map(r=>[r[0],{id:r[0],name:r[1],attack:r[2],defense:r[3],order:r[4],category:r[5],splash:r[6]||1,trample:r[7]||0}]));
+UNITS.settlement_defenses={id:'settlement_defenses',name:'Settlement Defenses',attack:1,defense:50,order:0,category:0,splash:20,trample:0};
+const CURRENT=[['sacred_golem',56,13,54],['behemoth',20,24,98],['spearman',50,2,35],['tamed_djinn',1,40,40],['line_infantry',175,56,63],['knight',58,49,54],['jager',88,82,18],['nikharul_soulstealer',1,1200,150],['cuirassier',1,82,33],['man_at_arms',46,39,41],['commander',1,91,154],['crossbowman',88,45,6],['general',1,128,138],['strategist',1,82,22],['cannon',12,115,8],['arquebusier',156,46,12],['marksman',1,42,17]].map((x,i)=>({...UNITS[x[0]],qty:x[1],attack:x[2],defense:x[3],baseAttack:UNITS[x[0]].attack,baseDefense:UNITS[x[0]].defense,pos:i}));
+const CURRENT_DEFENSE=[{...UNITS.settlement_defenses,qty:1,attack:615,defense:1212,baseAttack:1,baseDefense:50,pos:0,fixed:true}];
+// Recruitment costs from the current 1.2.2 unit definitions. Non-resource unlock requirements are intentionally omitted.
+const UNIT_COSTS={
+  archer:{gold:200,wood:100},battering_ram:{gold:800,wood:1000},crossbowman:{gold:1000,wood:400,supplies:50},trebuchet:{gold:1200,wood:2000},strategist:{gold:7500,crystal:400},arquebusier:{gold:1500,saltpetre:100},bombard:{gold:2000,steel:200,saltpetre:200},cannon:{gold:5000,saltpetre:1000,steel:500},artillery:{gold:15000,saltpetre:5000,steel:5000,natronite:2500},ranger:{food:1500,supplies:750},elf_warrior:{supplies:2000,crystal:2000},marksman:{gold:3500,saltpetre:500,supplies:500},
+  spearman:{gold:200,wood:150,copper:50},warrior_monk:{faith:800,mana:400},sacred_golem:{stone:2000,faith:1000,mana:800},cleric:{faith:1800,crystal:200},behemoth:{steel:3000,saltpetre:1500,natronite:1000},
+  warrior:{gold:400,copper:200},mercenary_veteran:{gold:2500},heavy_warrior:{gold:800,iron:300},man_at_arms:{gold:1500,steel:250},line_infantry:{gold:2500,saltpetre:500,supplies:250},jager:{gold:2000,saltpetre:1000,natronite:500},commander:{gold:2500},tamed_djinn:{mana:1000},general:{gold:15000},nikharul_soulstealer:{mana:12500},
+  light_cavarly:{gold:400,food:300,horse:25},knight:{gold:3000,steel:250,horse:50},cuirassier:{gold:5000,steel:500,horse:200,saltpetre:200}
+};
+const UNIT_LIMITS={commander:1,tamed_djinn:1,general:1,strategist:1,jager:100,behemoth:20,nikharul_soulstealer:1,ranger:50,elf_warrior:25};
+// Effective values and unlocks of the preloaded 1.2.2 test save, so the optimizer also works before re-importing it.
+const DEFAULT_UNLOCKED=[
+ ['spearman',50,2,35],['archer',0,31,2],['commander',1,91,154],['trebuchet',0,40,3],['light_cavarly',0,37,13],['warrior_monk',0,20,32],['crossbowman',88,45,6],['bombard',0,54,4],['tamed_djinn',1,40,40],['general',1,128,138],['strategist',1,82,22],['cannon',12,115,8],['line_infantry',175,56,63],['man_at_arms',46,39,41],['heavy_warrior',0,36,35],['warrior',0,40,23],['cleric',0,18,63],['sacred_golem',56,13,54],['knight',58,49,54],['jager',88,82,18],['nikharul_soulstealer',1,1200,150],['elf_warrior',0,67,55],['arquebusier',156,46,12],['cuirassier',1,82,33],['behemoth',20,24,98],['artillery',0,160,15],['battering_ram',0,26,2],['ranger',0,27,15],['marksman',1,42,17],['mercenary_veteran',0,27,19]
+].map(x=>({...UNITS[x[0]],id:x[0],owned:x[1],qty:0,attack:x[2],defense:x[3],baseAttack:UNITS[x[0]].attack,baseDefense:UNITS[x[0]].defense,limit:UNIT_LIMITS[x[0]]??Infinity}));
+const DEFAULT_RESOURCE_CAPS={wood:326122,stone:326122,copper:180275,iron:180275,supplies:43796,steel:45883,crystal:29371,saltpetre:59858,faith:37769,mana:55897,natronite:23100,food:55655,horse:4401,gold:300374};
+const UNIT_FLOW={
+  archer:{food:-0.2},battering_ram:{gold:-5},crossbowman:{food:-0.5},trebuchet:{gold:-10},white_company:{gold:-5},strategist:{mana:3,food:-3,gold:-12},mage_u:{mana:1.2,gold:-4},arquebusier:{food:-0.9},bombard:{gold:-15},cannon:{gold:-30},artillery:{gold:-40},archmage_u:{mana:7,crystal:3,food:-12,gold:-24},ranger:{food:1},elf_warrior:{food:-4},marksman:{food:-1.5},longbowman:{food:-2.25},machine_gun_u:{food:-1.5,mana:-0.7},
+  warrior:{food:-0.4},mercenary_veteran:{gold:-5},heavy_warrior:{food:-0.6},canava_guard:{gold:-5},man_at_arms:{food:-0.8},line_infantry:{food:-1.4},jager:{food:-1.8},colonial_militia:{food:-0.1},rifleman_u:{food:-1.6,mana:-0.6},battle_angel:{mana:-1},commander:{food:-2,gold:-10},tamed_djinn:{mana:-5},general:{food:-10,gold:-30},seraphim:{research:15,crystal:1.5,mana:-25},nikharul_soulstealer:{mana:-360},
+  spearman:{food:-0.2},phalanx:{food:-0.3},warrior_monk:{food:-0.4},shieldbearer:{food:-0.4},priest:{food:-1,gold:-1},sacred_golem:{mana:-1.5},armored_caravan_u:{gold:3},cleric:{food:-1},juggernaut:{food:-2,mana:-2},paladin:{crystal:0.1,food:-1.5},behemoth:{food:-6},ancient_balor:{iron:5,steel:2,food:-50,mana:-50},smuggler:{food:-0.2},mana_fortress_u:{mana:-150},high_prelate_u:{gold:35,mana:35,crystal:7,natronite:7},
+  light_cavarly:{food:-0.8},knight:{food:-1.8},cataphract:{food:-0.8,gold:-0.8},cuirassier:{food:-2.8},steel_rider:{food:-5},cpt_galliard:{gold:30},avatar_fate_u:{faith:25,mana:25},vaelgoroth_u:{gold:500,mana:500},
+  scout:{food:-0.1},explorer:{food:-0.2},drone_u:{research:5},familiar:{research:0.4},spy:{food:-0.1},settlement_defenses:{}
+};
+const RESOURCE_NAMES={food:'Food',gold:'Gold',mana:'Mana',research:'Research',crystal:'Crystal',iron:'Iron',steel:'Steel',faith:'Faith',natronite:'Natronite',wood:'Wood',stone:'Stone',copper:'Copper',supplies:'Supplies',saltpetre:'Saltpetre',horse:'Horse'};
+const POP_NAMES={unemployed:'Frei / arbeitslos',farmer:'Farmer',quarryman:'Quarryman',lumberjack:'Lumberjack',miner:'Miner',artisan:'Artisan',breeder:'Breeder',merchant:'Merchant',carpenter:'Carpenter',professor:'Professor',supplier:'Supplier',steelworker:'Steelworker',skymancer:'Skymancer',alchemist:'Alchemist',natro_refiner:'Natro Refiner',researcher:'Researcher',trader:'Trader',quartermaster:'Quartermaster'};
+const DEFAULT_POPULATION=[['unemployed',0],['farmer',75],['quarryman',22],['lumberjack',22],['miner',22],['artisan',34],['breeder',15],['merchant',15],['carpenter',15],['professor',14],['supplier',11],['steelworker',12],['skymancer',10],['alchemist',21],['natro_refiner',10],['researcher',10],['trader',8],['quartermaster',21]].map(([id,value])=>({id,value}));
+const DEFAULT_RESOURCES={food:{id:'food',value:55655,timer:99.7,timern:-1155,perc:66,percMul:0},gold:{id:'gold',value:188829.42,timer:202.3,timern:-612,perc:160,percMul:100},mana:{id:'mana',value:55897,timer:390.3,timern:-851,perc:80,percMul:100}};
+function defaultOwnedArmy(){return CURRENT.map(x=>({id:x.id,value:x.qty,away:x.qty})).concat([{id:'explorer',value:1,away:1},{id:'settlement_defenses',value:1,away:0}]);}
+
+const ENEMY_UNITS={
+"ancient_giant":{id:"ancient_giant",name:titleCaseId("ancient_giant"),attack:250,defense:16000,order:3,category:3,splash:1,trample:100,cap:true},
+"ancient_ghost":{id:"ancient_ghost",name:titleCaseId("ancient_ghost"),attack:140,defense:34,order:2,category:4,splash:1,trample:0,cap:false},
+"ancient_legionary":{id:"ancient_legionary",name:titleCaseId("ancient_legionary"),attack:26,defense:158,order:1,category:3,splash:1,trample:0,cap:false},
+"aqrabuamelu":{id:"aqrabuamelu",name:titleCaseId("aqrabuamelu"),attack:46,defense:63,order:1,category:2,splash:1,trample:0,cap:false},
+"archdemon":{id:"archdemon",name:titleCaseId("archdemon"),attack:90,defense:52,order:3,category:2,splash:2,trample:0,cap:false},
+"archlich":{id:"archlich",name:titleCaseId("archlich"),attack:120,defense:90,order:3,category:1,splash:8,trample:0,cap:true},
+"ball_lightning":{id:"ball_lightning",name:titleCaseId("ball_lightning"),attack:55,defense:20,order:1,category:4,splash:2,trample:0,cap:false},
+"balor":{id:"balor",name:titleCaseId("balor"),attack:195,defense:150,order:1,category:2,splash:5,trample:0,cap:false},
+"bandit":{id:"bandit",name:titleCaseId("bandit"),attack:3,defense:4,order:1,category:2,splash:1,trample:0,cap:false},
+"barbarian_chosen":{id:"barbarian_chosen",name:titleCaseId("barbarian_chosen"),attack:30,defense:12,order:1,category:2,splash:1,trample:100,cap:false},
+"barbarian_drummer":{id:"barbarian_drummer",name:titleCaseId("barbarian_drummer"),attack:6,defense:18,order:2,category:3,splash:1,trample:0,cap:false},
+"barbarian_leader":{id:"barbarian_leader",name:titleCaseId("barbarian_leader"),attack:48,defense:22,order:1,category:2,splash:1,trample:100,cap:false},
+"barbarian_king":{id:"barbarian_king",name:titleCaseId("barbarian_king"),attack:76,defense:56,order:3,category:2,splash:1,trample:100,cap:true},
+"barbarian_warrior":{id:"barbarian_warrior",name:titleCaseId("barbarian_warrior"),attack:13,defense:6,order:1,category:2,splash:1,trample:100,cap:false},
+"baron_mordecai_darkthorn":{id:"baron_mordecai_darkthorn",name:titleCaseId("baron_mordecai_darkthorn"),attack:915,defense:1750,order:3,category:2,splash:1,trample:100,cap:true},
+"basilisk":{id:"basilisk",name:titleCaseId("basilisk"),attack:35,defense:16,order:1,category:1,splash:1,trample:0,cap:false},
+"black_mage":{id:"black_mage",name:titleCaseId("black_mage"),attack:52,defense:22,order:3,category:1,splash:5,trample:0,cap:true},
+"bugbear":{id:"bugbear",name:titleCaseId("bugbear"),attack:7,defense:16,order:1,category:3,splash:1,trample:0,cap:false},
+"bugbear_chieftain":{id:"bugbear_chieftain",name:titleCaseId("bugbear_chieftain"),attack:44,defense:32,order:2,category:2,splash:1,trample:100,cap:true},
+"bulette":{id:"bulette",name:titleCaseId("bulette"),attack:140,defense:110,order:1,category:4,splash:1,trample:100,cap:false},
+"cavarly_archer":{id:"cavarly_archer",name:titleCaseId("cavarly_archer"),attack:18,defense:10,order:3,category:4,splash:1,trample:0,cap:false},
+"charmed_dweller":{id:"charmed_dweller",name:titleCaseId("charmed_dweller"),attack:4,defense:4,order:1,category:2,splash:1,trample:0,cap:false},
+"cyclop":{id:"cyclop",name:titleCaseId("cyclop"),attack:25,defense:76,order:1,category:2,splash:1,trample:100,cap:false},
+"cult_master":{id:"cult_master",name:titleCaseId("cult_master"),attack:80,defense:55,order:3,category:1,splash:1,trample:0,cap:true},
+"daimyo":{id:"daimyo",name:titleCaseId("daimyo"),attack:90,defense:90,order:3,category:1,splash:1,trample:100,cap:true},
+"dark_knight":{id:"dark_knight",name:titleCaseId("dark_knight"),attack:250,defense:250,order:2,category:2,splash:1,trample:100,cap:false},
+"dark_knight_lord":{id:"dark_knight_lord",name:titleCaseId("dark_knight_lord"),attack:6000,defense:9000,order:3,category:2,splash:1,trample:100,cap:true},
+"demoness":{id:"demoness",name:titleCaseId("demoness"),attack:50,defense:80,order:3,category:1,splash:1,trample:0,cap:true},
+"demonic_musketeer":{id:"demonic_musketeer",name:titleCaseId("demonic_musketeer"),attack:20,defense:20,order:2,category:2,splash:1,trample:0,cap:false},
+"deserter":{id:"deserter",name:titleCaseId("deserter"),attack:7,defense:6,order:2,category:2,splash:1,trample:0,cap:false},
+"dirty_rat":{id:"dirty_rat",name:titleCaseId("dirty_rat"),attack:1,defense:1,order:1,category:4,splash:1,trample:0,cap:false},
+"djinn":{id:"djinn",name:titleCaseId("djinn"),attack:46,defense:36,order:2,category:1,splash:1,trample:0,cap:true},
+"draconic_diver":{id:"draconic_diver",name:titleCaseId("draconic_diver"),attack:20,defense:10,order:2,category:4,splash:1,trample:0,cap:false},
+"draconic_leader":{id:"draconic_leader",name:titleCaseId("draconic_leader"),attack:80,defense:65,order:3,category:1,splash:1,trample:100,cap:false},
+"draconic_mage":{id:"draconic_mage",name:titleCaseId("draconic_mage"),attack:32,defense:10,order:3,category:1,splash:2,trample:0,cap:false},
+"draconic_warrior":{id:"draconic_warrior",name:titleCaseId("draconic_warrior"),attack:8,defense:14,order:1,category:2,splash:1,trample:0,cap:false},
+"earth_elemental":{id:"earth_elemental",name:titleCaseId("earth_elemental"),attack:20,defense:48,order:1,category:3,splash:1,trample:100,cap:false},
+"eternal_guardian":{id:"eternal_guardian",name:titleCaseId("eternal_guardian"),attack:22,defense:84,order:1,category:3,splash:1,trample:0,cap:false},
+"ettin":{id:"ettin",name:titleCaseId("ettin"),attack:39,defense:67,order:1,category:3,splash:1,trample:100,cap:false},
+"faceless_horror":{id:"faceless_horror",name:titleCaseId("faceless_horror"),attack:76,defense:108,order:2,category:4,splash:1,trample:100,cap:false},
+"fallen_angel":{id:"fallen_angel",name:titleCaseId("fallen_angel"),attack:150,defense:100,order:3,category:2,splash:5,trample:0,cap:true},
+"fire_elemental":{id:"fire_elemental",name:titleCaseId("fire_elemental"),attack:28,defense:28,order:1,category:1,splash:2,trample:0,cap:false},
+"fire_salamander":{id:"fire_salamander",name:titleCaseId("fire_salamander"),attack:32,defense:20,order:1,category:4,splash:1,trample:0,cap:false},
+"frost_elemental":{id:"frost_elemental",name:titleCaseId("frost_elemental"),attack:20,defense:42,order:1,category:1,splash:1,trample:0,cap:false},
+"frost_giant":{id:"frost_giant",name:titleCaseId("frost_giant"),attack:112,defense:140,order:2,category:3,splash:1,trample:100,cap:true},
+"galliard":{id:"galliard",name:titleCaseId("galliard"),attack:70,defense:120,order:2,category:2,splash:1,trample:100,cap:true},
+"gargoyle":{id:"gargoyle",name:titleCaseId("gargoyle"),attack:8,defense:28,order:1,category:3,splash:1,trample:0,cap:false},
+"ghast":{id:"ghast",name:titleCaseId("ghast"),attack:6,defense:8,order:2,category:4,splash:1,trample:0,cap:false},
+"ghoul":{id:"ghoul",name:titleCaseId("ghoul"),attack:4,defense:5,order:1,category:2,splash:1,trample:0,cap:false},
+"ghost":{id:"ghost",name:titleCaseId("ghost"),attack:5,defense:5,order:2,category:4,splash:1,trample:0,cap:false},
+"giant_death_robot":{id:"giant_death_robot",name:titleCaseId("giant_death_robot"),attack:6000,defense:8000,order:2,category:1,splash:5,trample:0,cap:true},
+"giant_snake":{id:"giant_snake",name:titleCaseId("giant_snake"),attack:16,defense:8,order:2,category:4,splash:1,trample:0,cap:false},
+"giant_spider":{id:"giant_spider",name:titleCaseId("giant_spider"),attack:10,defense:8,order:2,category:4,splash:1,trample:0,cap:false},
+"giant_wasp":{id:"giant_wasp",name:titleCaseId("giant_wasp"),attack:8,defense:4,order:1,category:4,splash:1,trample:0,cap:false},
+"gnoll_leader":{id:"gnoll_leader",name:titleCaseId("gnoll_leader"),attack:23,defense:18,order:2,category:2,splash:1,trample:100,cap:true},
+"gnoll_raider":{id:"gnoll_raider",name:titleCaseId("gnoll_raider"),attack:6,defense:5,order:1,category:2,splash:1,trample:0,cap:false},
+"goblin_marauder":{id:"goblin_marauder",name:titleCaseId("goblin_marauder"),attack:3,defense:3,order:1,category:1,splash:1,trample:0,cap:false},
+"goblin_overlord":{id:"goblin_overlord",name:titleCaseId("goblin_overlord"),attack:20,defense:15,order:3,category:2,splash:5,trample:0,cap:true},
+"goblin_warrior":{id:"goblin_warrior",name:titleCaseId("goblin_warrior"),attack:3,defense:4,order:2,category:2,splash:1,trample:0,cap:false},
+"goblin_wolfrider":{id:"goblin_wolfrider",name:titleCaseId("goblin_wolfrider"),attack:6,defense:7,order:2,category:4,splash:1,trample:100,cap:false},
+"golem":{id:"golem",name:titleCaseId("golem"),attack:11,defense:42,order:1,category:3,splash:1,trample:0,cap:false},
+"gorgon":{id:"gorgon",name:titleCaseId("gorgon"),attack:950,defense:600,order:1,category:2,splash:1,trample:0,cap:true},
+"greater_demon":{id:"greater_demon",name:titleCaseId("greater_demon"),attack:16,defense:16,order:3,category:2,splash:1,trample:100,cap:false},
+"griffin":{id:"griffin",name:titleCaseId("griffin"),attack:42,defense:58,order:1,category:4,splash:1,trample:0,cap:false},
+"gulud":{id:"gulud",name:titleCaseId("gulud"),attack:250,defense:180,order:3,category:1,splash:6,trample:0,cap:true},
+"hand_evil":{id:"hand_evil",name:titleCaseId("hand_evil"),attack:950,defense:8000,order:3,category:2,splash:7,trample:0,cap:true},
+"harpy":{id:"harpy",name:titleCaseId("harpy"),attack:6,defense:6,order:1,category:4,splash:1,trample:0,cap:false},
+"hill_giant":{id:"hill_giant",name:titleCaseId("hill_giant"),attack:20,defense:36,order:1,category:3,splash:1,trample:100,cap:false},
+"hobgoblin_archer":{id:"hobgoblin_archer",name:titleCaseId("hobgoblin_archer"),attack:11,defense:4,order:3,category:1,splash:1,trample:0,cap:false},
+"hobgoblin_chieftain":{id:"hobgoblin_chieftain",name:titleCaseId("hobgoblin_chieftain"),attack:20,defense:34,order:2,category:2,splash:1,trample:100,cap:true},
+"hobgoblin_grunt":{id:"hobgoblin_grunt",name:titleCaseId("hobgoblin_grunt"),attack:6,defense:12,order:1,category:3,splash:1,trample:100,cap:false},
+"hydra":{id:"hydra",name:titleCaseId("hydra"),attack:950,defense:900,order:1,category:4,splash:4,trample:0,cap:true},
+"hover_tank":{id:"hover_tank",name:titleCaseId("hover_tank"),attack:30,defense:120,order:1,category:3,splash:1,trample:100,cap:false},
+"immense_door":{id:"immense_door",name:titleCaseId("immense_door"),attack:120,defense:80000,order:1,category:3,splash:1,trample:0,cap:true},
+"imp":{id:"imp",name:titleCaseId("imp"),attack:3,defense:1,order:2,category:1,splash:1,trample:0,cap:false},
+"katana_samurai":{id:"katana_samurai",name:titleCaseId("katana_samurai"),attack:26,defense:28,order:1,category:2,splash:1,trample:0,cap:false},
+"kobold":{id:"kobold",name:titleCaseId("kobold"),attack:3,defense:2,order:1,category:2,splash:1,trample:0,cap:false},
+"kobold_champion":{id:"kobold_champion",name:titleCaseId("kobold_champion"),attack:5,defense:12,order:1,category:3,splash:1,trample:0,cap:false},
+"kobold_king":{id:"kobold_king",name:titleCaseId("kobold_king"),attack:42,defense:48,order:1,category:2,splash:1,trample:100,cap:true},
+"korrigan_slinger":{id:"korrigan_slinger",name:titleCaseId("korrigan_slinger"),attack:3,defense:2,order:2,category:1,splash:1,trample:0,cap:false},
+"korrigan_swindler":{id:"korrigan_swindler",name:titleCaseId("korrigan_swindler"),attack:3,defense:5,order:1,category:2,splash:1,trample:0,cap:false},
+"lead_golem":{id:"lead_golem",name:titleCaseId("lead_golem"),attack:22,defense:72,order:1,category:3,splash:1,trample:0,cap:false},
+"lesser_demon":{id:"lesser_demon",name:titleCaseId("lesser_demon"),attack:8,defense:8,order:1,category:3,splash:1,trample:0,cap:false},
+"lich":{id:"lich",name:titleCaseId("lich"),attack:60,defense:50,order:3,category:1,splash:3,trample:0,cap:true},
+"lizard_archer":{id:"lizard_archer",name:titleCaseId("lizard_archer"),attack:13,defense:6,order:3,category:1,splash:1,trample:0,cap:false},
+"lizard_commander":{id:"lizard_commander",name:titleCaseId("lizard_commander"),attack:50,defense:75,order:3,category:1,splash:1,trample:0,cap:false},
+"lizard_shaman":{id:"lizard_shaman",name:titleCaseId("lizard_shaman"),attack:22,defense:32,order:3,category:1,splash:1,trample:0,cap:false},
+"lizard_warrior":{id:"lizard_warrior",name:titleCaseId("lizard_warrior"),attack:12,defense:12,order:1,category:2,splash:1,trample:0,cap:false},
+"markanat":{id:"markanat",name:titleCaseId("markanat"),attack:900,defense:600,order:1,category:4,splash:1,trample:100,cap:true},
+"mechanical_wolf":{id:"mechanical_wolf",name:titleCaseId("mechanical_wolf"),attack:26,defense:12,order:2,category:4,splash:1,trample:0,cap:false},
+"mindless_evil_u":{id:"mindless_evil_u",name:titleCaseId("mindless_evil_u"),attack:12000,defense:150000,order:3,category:1,splash:12,trample:0,cap:true},
+"minotaur":{id:"minotaur",name:titleCaseId("minotaur"),attack:1000,defense:1800,order:1,category:3,splash:1,trample:100,cap:true},
+"mist_evil":{id:"mist_evil",name:titleCaseId("mist_evil"),attack:1,defense:35000,order:1,category:3,splash:20,trample:0,cap:true},
+"mobile_turret":{id:"mobile_turret",name:titleCaseId("mobile_turret"),attack:150,defense:30,order:3,category:2,splash:1,trample:0,cap:false},
+"mountain_giant":{id:"mountain_giant",name:titleCaseId("mountain_giant"),attack:34,defense:42,order:3,category:3,splash:1,trample:100,cap:false},
+"musket_ashigaru":{id:"musket_ashigaru",name:titleCaseId("musket_ashigaru"),attack:22,defense:18,order:2,category:2,splash:1,trample:0,cap:false},
+"myconid":{id:"myconid",name:titleCaseId("myconid"),attack:3,defense:10,order:1,category:3,splash:1,trample:0,cap:false},
+"naga":{id:"naga",name:titleCaseId("naga"),attack:12,defense:12,order:1,category:4,splash:1,trample:0,cap:false},
+"naga_princess":{id:"naga_princess",name:titleCaseId("naga_princess"),attack:380,defense:1020,order:3,category:4,splash:1,trample:100,cap:true},
+"naga_royal_guard":{id:"naga_royal_guard",name:titleCaseId("naga_royal_guard"),attack:110,defense:80,order:2,category:2,splash:1,trample:100,cap:false},
+"necromancer":{id:"necromancer",name:titleCaseId("necromancer"),attack:28,defense:15,order:3,category:1,splash:4,trample:0,cap:true},
+"nikharul":{id:"nikharul",name:titleCaseId("nikharul"),attack:780,defense:1020,order:3,category:1,splash:9,trample:0,cap:true},
+"oni":{id:"oni",name:titleCaseId("oni"),attack:45,defense:99,order:1,category:3,splash:1,trample:0,cap:false},
+"orc_champion":{id:"orc_champion",name:titleCaseId("orc_champion"),attack:35,defense:130,order:1,category:2,splash:1,trample:100,cap:false},
+"orc_berserker":{id:"orc_berserker",name:titleCaseId("orc_berserker"),attack:55,defense:11,order:1,category:2,splash:1,trample:100,cap:false},
+"orc_flame_caster":{id:"orc_flame_caster",name:titleCaseId("orc_flame_caster"),attack:45,defense:12,order:3,category:1,splash:3,trample:0,cap:false},
+"orc_ironskin":{id:"orc_ironskin",name:titleCaseId("orc_ironskin"),attack:18,defense:169,order:1,category:3,splash:1,trample:0,cap:false},
+"orc_shaman":{id:"orc_shaman",name:titleCaseId("orc_shaman"),attack:33,defense:28,order:3,category:1,splash:1,trample:0,cap:false},
+"orc_stone_thrower":{id:"orc_stone_thrower",name:titleCaseId("orc_stone_thrower"),attack:31,defense:10,order:3,category:1,splash:1,trample:0,cap:false},
+"orc_warg_rider":{id:"orc_warg_rider",name:titleCaseId("orc_warg_rider"),attack:33,defense:70,order:2,category:4,splash:1,trample:100,cap:false},
+"orc_warlord":{id:"orc_warlord",name:titleCaseId("orc_warlord"),attack:70,defense:150,order:2,category:2,splash:1,trample:100,cap:false},
+"orc_warrior":{id:"orc_warrior",name:titleCaseId("orc_warrior"),attack:25,defense:63,order:1,category:2,splash:1,trample:100,cap:false},
+"orc_worker":{id:"orc_worker",name:titleCaseId("orc_worker"),attack:17,defense:48,order:1,category:3,splash:1,trample:0,cap:false},
+"pillager":{id:"pillager",name:titleCaseId("pillager"),attack:3,defense:5,order:1,category:2,splash:1,trample:0,cap:false},
+"raider":{id:"raider",name:titleCaseId("raider"),attack:22,defense:10,order:1,category:4,splash:1,trample:0,cap:false},
+"ravenous_crab":{id:"ravenous_crab",name:titleCaseId("ravenous_crab"),attack:2,defense:1,order:1,category:4,splash:1,trample:0,cap:false},
+"red_dragon":{id:"red_dragon",name:titleCaseId("red_dragon"),attack:280,defense:180,order:3,category:4,splash:12,trample:0,cap:true},
+"snake":{id:"snake",name:titleCaseId("snake"),attack:4,defense:4,order:1,category:4,splash:1,trample:0,cap:false},
+"spider":{id:"spider",name:titleCaseId("spider"),attack:3,defense:2,order:1,category:4,splash:1,trample:0,cap:false},
+"sluagh":{id:"sluagh",name:titleCaseId("sluagh"),attack:26,defense:6,order:1,category:4,splash:1,trample:0,cap:false},
+"skeleton":{id:"skeleton",name:titleCaseId("skeleton"),attack:2,defense:2,order:1,category:3,splash:1,trample:0,cap:false},
+"skeletal_knight":{id:"skeletal_knight",name:titleCaseId("skeletal_knight"),attack:18,defense:22,order:1,category:2,splash:1,trample:0,cap:false},
+"skullface":{id:"skullface",name:titleCaseId("skullface"),attack:76,defense:60,order:3,category:1,splash:1,trample:100,cap:true},
+"son_atamar":{id:"son_atamar",name:titleCaseId("son_atamar"),attack:22,defense:20,order:1,category:2,splash:1,trample:0,cap:false},
+"spawn_evil":{id:"spawn_evil",name:titleCaseId("spawn_evil"),attack:54,defense:11,order:2,category:4,splash:1,trample:0,cap:false},
+"spectra_memory":{id:"spectra_memory",name:titleCaseId("spectra_memory"),attack:5,defense:8,order:1,category:3,splash:1,trample:0,cap:false},
+"succubus":{id:"succubus",name:titleCaseId("succubus"),attack:37,defense:23,order:1,category:2,splash:1,trample:0,cap:false},
+"succubus_queen":{id:"succubus_queen",name:titleCaseId("succubus_queen"),attack:1500,defense:1750,order:2,category:1,splash:5,trample:0,cap:true},
+"swamp_horror":{id:"swamp_horror",name:titleCaseId("swamp_horror"),attack:900,defense:1400,order:1,category:3,splash:1,trample:100,cap:true},
+"titan":{id:"titan",name:titleCaseId("titan"),attack:1,defense:52000,order:1,category:2,splash:40,trample:0,cap:true},
+"trap":{id:"trap",name:titleCaseId("trap"),attack:8,defense:41,order:1,category:3,splash:1,trample:0,cap:false},
+"troll_cave":{id:"troll_cave",name:titleCaseId("troll_cave"),attack:16,defense:28,order:1,category:3,splash:1,trample:100,cap:false},
+"troll_battle":{id:"troll_battle",name:titleCaseId("troll_battle"),attack:42,defense:56,order:1,category:2,splash:1,trample:100,cap:false},
+"tyrannosaurus":{id:"tyrannosaurus",name:titleCaseId("tyrannosaurus"),attack:1750,defense:1200,order:1,category:4,splash:1,trample:100,cap:true},
+"vampire":{id:"vampire",name:titleCaseId("vampire"),attack:80,defense:90,order:3,category:2,splash:1,trample:0,cap:true},
+"vampire_bat":{id:"vampire_bat",name:titleCaseId("vampire_bat"),attack:2,defense:1,order:1,category:4,splash:1,trample:0,cap:false},
+"vampire_servant":{id:"vampire_servant",name:titleCaseId("vampire_servant"),attack:15,defense:32,order:1,category:3,splash:1,trample:0,cap:false},
+"velociraptors":{id:"velociraptors",name:titleCaseId("velociraptors"),attack:37,defense:22,order:1,category:4,splash:1,trample:0,cap:false},
+"warg":{id:"warg",name:titleCaseId("warg"),attack:22,defense:18,order:1,category:4,splash:1,trample:100,cap:false},
+"werewolf":{id:"werewolf",name:titleCaseId("werewolf"),attack:1150,defense:600,order:1,category:1,splash:1,trample:100,cap:true},
+"wendigo":{id:"wendigo",name:titleCaseId("wendigo"),attack:47,defense:39,order:1,category:2,splash:1,trample:0,cap:false},
+"wind_elemental":{id:"wind_elemental",name:titleCaseId("wind_elemental"),attack:22,defense:42,order:1,category:1,splash:3,trample:0,cap:false},
+"wolf":{id:"wolf",name:titleCaseId("wolf"),attack:4,defense:4,order:1,category:4,splash:1,trample:0,cap:false},
+"wyvern":{id:"wyvern",name:titleCaseId("wyvern"),attack:32,defense:28,order:2,category:4,splash:1,trample:100,cap:false},
+"zombie":{id:"zombie",name:titleCaseId("zombie"),attack:3,defense:3,order:1,category:3,splash:1,trample:0,cap:false},
+"ash_elemental":{id:"ash_elemental",name:titleCaseId("ash_elemental"),attack:95,defense:128,order:1,category:1,splash:2,trample:0,cap:false},
+"vaelgoroth_crimson_doom":{id:"vaelgoroth_crimson_doom",name:titleCaseId("vaelgoroth_crimson_doom"),attack:900,defense:2100,order:3,category:4,splash:7,trample:0,cap:true},
+"azrathis_flamebinder":{id:"azrathis_flamebinder",name:titleCaseId("azrathis_flamebinder"),attack:2300,defense:500,order:3,category:2,splash:9,trample:0,cap:true}
+};
+const PRESETS={
+"ancient_burial_place":{id:"ancient_burial_place",name:"",level:1,group:"locations",hidden:false,army:[["skeleton",11],["zombie",6],["ghost",2]]},
+"ancient_hideout":{id:"ancient_hideout",name:"",level:1,group:"locations",hidden:false,army:[["bandit",17]]},
+"ancient_lighthouse":{id:"ancient_lighthouse",name:"",level:5,group:"locations",hidden:false,army:[["ancient_legionary",280]]},
+"ancient_ruin":{id:"ancient_ruin",name:"",level:5,group:"locations",hidden:false,army:[["ancient_ghost",180]]},
+"dark_knight_patrol":{id:"dark_knight_patrol",name:"",level:6,group:"locations",hidden:false,army:[["dark_knight",110],["ancient_legionary",240]]},
+"dark_village":{id:"dark_village",name:"",level:6,group:"locations",hidden:false,army:[["ancient_legionary",210]]},
+"ball_lightning_field":{id:"ball_lightning_field",name:"",level:2,group:"locations",hidden:false,army:[["ball_lightning",26]]},
+"bandit_camp":{id:"bandit_camp",name:"",level:1,group:"locations",hidden:false,army:[["bandit",9]]},
+"barbarian_camp":{id:"barbarian_camp",name:"",level:1,group:"locations",hidden:false,army:[["barbarian_warrior",17]]},
+"barbarian_village":{id:"barbarian_village",name:"",level:2,group:"locations",hidden:false,army:[["barbarian_warrior",40],["barbarian_leader",3]]},
+"barren_hills":{id:"barren_hills",name:"",level:2,group:"locations",hidden:false,army:[["hill_giant",7],["kobold",52]]},
+"basilisk_cave":{id:"basilisk_cave",name:"",level:2,group:"locations",hidden:false,army:[["basilisk",7]]},
+"burning_pit":{id:"burning_pit",name:"",level:2,group:"locations",hidden:false,army:[["imp",20],["lesser_demon",6]]},
+"black_mage_tower":{id:"black_mage_tower",name:"",level:2,group:"locations",hidden:false,army:[["black_mage",1],["goblin_warrior",60]]},
+"bugbear_tribe":{id:"bugbear_tribe",name:"",level:2,group:"locations",hidden:false,army:[["bugbear",18]]},
+"bugbear_war_party":{id:"bugbear_war_party",name:"",level:4,group:"locations",hidden:false,army:[["bugbear_chieftain",1],["bugbear",120]]},
+"church_abyss":{id:"church_abyss",name:"",level:5,group:"locations",hidden:false,army:[["vampire",280]]},
+"citadel_dead":{id:"citadel_dead",name:"",level:5,group:"locations",hidden:false,army:[["zombie",350],["ghoul",130],["wyvern",30]]},
+"circle_necromancer":{id:"circle_necromancer",name:"",level:6,group:"locations",hidden:false,army:[["necromancer",70],["faceless_horror",290]]},
+"construction_site":{id:"construction_site",name:"",level:2,group:"locations",hidden:false,army:[["mercenary_veteran",25]]},
+"corrupted_lands":{id:"corrupted_lands",name:"",level:7,group:"locations",hidden:false,army:[["mist_evil",1],["spawn_evil",750]]},
+"dark_pit":{id:"dark_pit",name:"",level:5,group:"locations",hidden:false,army:[["greater_demon",220],["lesser_demon",360]]},
+"desecrated_temple":{id:"desecrated_temple",name:"",level:4,group:"locations",hidden:false,army:[["orc_shaman",15],["orc_worker",89]]},
+"deserters_den":{id:"deserters_den",name:"",level:2,group:"locations",hidden:false,army:[["bandit",26],["deserter",14]]},
+"demoness_castle":{id:"demoness_castle",name:"",level:5,group:"locations",hidden:false,army:[["demoness",1],["greater_demon",20],["lesser_demon",60],["charmed_dweller",70]]},
+"demonic_portal":{id:"demonic_portal",name:"",level:3,group:"locations",hidden:false,army:[["greater_demon",10],["lesser_demon",22],["imp",50]]},
+"dense_oasis":{id:"dense_oasis",name:"",level:5,group:"locations",hidden:false,army:[["naga",180],["naga_royal_guard",115],["naga_princess",1]]},
+"elder_dragon":{id:"elder_dragon",name:"",level:9,group:"locations",hidden:false,army:[["fire_elemental",14800],["ash_elemental",9200],["vaelgoroth_crimson_doom",1],["azrathis_flamebinder",1]]},
+"evil_abode":{id:"evil_abode",name:"",level:5,group:"locations",hidden:false,army:[["succubus",220]]},
+"explore_desert":{id:"explore_desert",name:"",level:6,group:"locations",hidden:false,army:[["naga",1200],["naga_royal_guard",560]]},
+"hell_hole":{id:"hell_hole",name:"",level:4,group:"locations",hidden:false,army:[["archdemon",3],["greater_demon",52],["lesser_demon",98]]},
+"gold_mine":{id:"gold_mine",name:"",level:5,group:"locations",hidden:false,army:[["troll_battle",70],["troll_cave",120]]},
+"king_reptiles":{id:"king_reptiles",name:"",level:4,group:"locations",hidden:false,army:[["velociraptors",67],["tyrannosaurus",1]]},
+"fire_mage_domain":{id:"fire_mage_domain",name:"",level:7,group:"locations",hidden:false,army:[["fire_elemental",2200],["ash_elemental",760]]},
+"lost_valley":{id:"lost_valley",name:"",level:6,group:"locations",hidden:false,army:[["velociraptors",167],["tyrannosaurus",23]]},
+"east_sacred_place":{id:"east_sacred_place",name:"",level:2,group:"locations",hidden:false,army:[["wind_elemental",28]]},
+"eternal_halls":{id:"eternal_halls",name:"",level:3,group:"locations",hidden:false,army:[["eternal_guardian",35],["golem",90]]},
+"ettin_camp":{id:"ettin_camp",name:"",level:2,group:"locations",hidden:false,army:[["ettin",12]]},
+"ettin_enslaver":{id:"ettin_enslaver",name:"",level:3,group:"locations",hidden:false,army:[["ettin",42]]},
+"earth_elemental_circle":{id:"earth_elemental_circle",name:"",level:3,group:"locations",hidden:false,army:[["earth_elemental",56]]},
+"fire_elemental_circle":{id:"fire_elemental_circle",name:"",level:3,group:"locations",hidden:false,army:[["fire_elemental",56]]},
+"frost_elemental_circle":{id:"frost_elemental_circle",name:"",level:3,group:"locations",hidden:false,army:[["frost_elemental",56]]},
+"wind_elemental_circle":{id:"wind_elemental_circle",name:"",level:3,group:"locations",hidden:false,army:[["wind_elemental",56]]},
+"fire_salamander_nest":{id:"fire_salamander_nest",name:"",level:4,group:"locations",hidden:false,army:[["fire_salamander",62]]},
+"galliard_mercenary_camp":{id:"galliard_mercenary_camp",name:"",level:4,group:"locations",hidden:false,army:[["galliard",1],["mercenary_veteran",70]]},
+"giant_temple":{id:"giant_temple",name:"",level:3,group:"locations",hidden:false,army:[["gargoyle",43]]},
+"gloomy_werewolf_forest":{id:"gloomy_werewolf_forest",name:"",level:4,group:"locations",hidden:false,army:[["werewolf",1],["wolf",130]]},
+"goblin_lair":{id:"goblin_lair",name:"",level:1,group:"locations",hidden:false,army:[["goblin_marauder",12],["goblin_warrior",3]]},
+"gorgon_cave":{id:"gorgon_cave",name:"",level:3,group:"locations",hidden:false,army:[["gorgon",1],["naga",70]]},
+"gnoll_raiding_party":{id:"gnoll_raiding_party",name:"",level:2,group:"locations",hidden:false,army:[["gnoll_raider",25]]},
+"gnoll_camp":{id:"gnoll_camp",name:"",level:4,group:"locations",hidden:false,army:[["gnoll_leader",1],["gnoll_raider",180]]},
+"golem_cave":{id:"golem_cave",name:"",level:2,group:"locations",hidden:false,army:[["golem",15]]},
+"gulud_ugdun":{id:"gulud_ugdun",name:"",level:5,group:"locations",hidden:false,army:[["gulud",1],["orc_worker",350]]},
+"harpy_nest":{id:"harpy_nest",name:"",level:2,group:"locations",hidden:false,army:[["harpy",26]]},
+"haunted_library":{id:"haunted_library",name:"",level:1,group:"locations",hidden:false,army:[["ghost",9]]},
+"hobgoblin_encampment":{id:"hobgoblin_encampment",name:"",level:2,group:"locations",hidden:false,army:[["hobgoblin_grunt",21]]},
+"hobgoblin_chieftain":{id:"hobgoblin_chieftain",name:"",level:3,group:"locations",hidden:false,army:[["hobgoblin_grunt",50],["hobgoblin_archer",60],["hobgoblin_chieftain",1]]},
+"hydra_pit":{id:"hydra_pit",name:"",level:4,group:"locations",hidden:false,army:[["hydra",1],["giant_snake",110]]},
+"immense_door_e":{id:"immense_door_e",name:"",level:4,group:"locations",hidden:false,army:[["immense_door",1]]},
+"lead_golem_mine":{id:"lead_golem_mine",name:"",level:3,group:"locations",hidden:false,army:[["lead_golem",42]]},
+"leprechaun_den":{id:"leprechaun_den",name:"",level:2,group:"locations",hidden:false,army:[["trap",36]]},
+"lich_temple":{id:"lich_temple",name:"",level:4,group:"locations",hidden:false,army:[["zombie",70],["ghoul",40],["ghast",30],["lich",1]]},
+"kobold_city":{id:"kobold_city",name:"",level:3,group:"locations",hidden:false,army:[["kobold",99]]},
+"kobold_underground_tunnels":{id:"kobold_underground_tunnels",name:"",level:2,group:"locations",hidden:false,army:[["kobold",36]]},
+"kobold_stash":{id:"kobold_stash",name:"",level:2,group:"locations",hidden:false,army:[["kobold",26]]},
+"korrigan_dolmen":{id:"korrigan_dolmen",name:"",level:1,group:"locations",hidden:false,army:[["korrigan_slinger",6],["korrigan_swindler",10]]},
+"markanat_forest":{id:"markanat_forest",name:"",level:4,group:"locations",hidden:false,army:[["markanat",1],["giant_spider",140]]},
+"minotaur_maze":{id:"minotaur_maze",name:"",level:4,group:"locations",hidden:false,army:[["minotaur",1],["kobold",210]]},
+"mountain_cave":{id:"mountain_cave",name:"",level:3,group:"locations",hidden:false,army:[["mountain_giant",1],["goblin_marauder",52],["goblin_warrior",28]]},
+"mountain_valley":{id:"mountain_valley",name:"",level:4,group:"locations",hidden:false,army:[["frost_giant",1],["hill_giant",120]]},
+"naga_nest":{id:"naga_nest",name:"",level:2,group:"locations",hidden:false,army:[["naga",12]]},
+"djinn_palace":{id:"djinn_palace",name:"",level:4,group:"locations",hidden:false,army:[["djinn",1],["naga",56]]},
+"necromancer_crypt":{id:"necromancer_crypt",name:"",level:3,group:"locations",hidden:false,army:[["ghoul",26],["ghast",16],["necromancer",1]]},
+"north_sacred_place":{id:"north_sacred_place",name:"",level:3,group:"locations",hidden:false,army:[["frost_elemental",28]]},
+"mercenary_camp":{id:"mercenary_camp",name:"",level:2,group:"locations",hidden:false,army:[["mercenary_veteran",30]]},
+"myconid_cavern":{id:"myconid_cavern",name:"",level:2,group:"locations",hidden:false,army:[["myconid",42]]},
+"old_herd":{id:"old_herd",name:"",level:1,group:"locations",hidden:false,army:[["dirty_rat",18]]},
+"old_storage_room":{id:"old_storage_room",name:"",level:1,group:"locations",hidden:false,army:[["spider",5]]},
+"orc_gormiak_citadel":{id:"orc_gormiak_citadel",name:"",level:5,group:"locations",hidden:false,army:[["orc_warrior",300],["orc_stone_thrower",150],["orc_warlord",3]]},
+"orc_horith_citadel":{id:"orc_horith_citadel",name:"",level:5,group:"locations",hidden:false,army:[["orc_ironskin",300],["orc_flame_caster",150]]},
+"orc_ogsog_citadel":{id:"orc_ogsog_citadel",name:"",level:5,group:"locations",hidden:false,army:[["orc_champion",30],["orc_warrior",350],["orc_warlord",5]]},
+"orc_turgon_citadel":{id:"orc_turgon_citadel",name:"",level:5,group:"locations",hidden:false,army:[["orc_shaman",50],["orc_warg_rider",300],["orc_warlord",1]]},
+"orc_raiding_party":{id:"orc_raiding_party",name:"",level:5,group:"locations",hidden:false,army:[["orc_warrior",200],["orc_warlord",1]]},
+"orcish_prison_camp":{id:"orcish_prison_camp",name:"",level:5,group:"locations",hidden:false,army:[["orc_worker",120],["orc_warrior",90],["orc_warg_rider",60]]},
+"raider_hideout":{id:"raider_hideout",name:"",level:2,group:"locations",hidden:false,army:[["raider",40]]},
+"rusted_warehouse":{id:"rusted_warehouse",name:"",level:2,group:"locations",hidden:false,army:[["bandit",22]]},
+"save_damned":{id:"save_damned",name:"",level:4,group:"locations",hidden:false,army:[["faceless_horror",90]]},
+"sleeping_titan":{id:"sleeping_titan",name:"A Sleeping Titan",level:7,group:"locations",hidden:false,army:[["titan",1],["golem",750]]},
+"skullface_encampment":{id:"skullface_encampment",name:"",level:3,group:"locations",hidden:false,army:[["skullface",1],["bandit",75]]},
+"smuggler_warehouse":{id:"smuggler_warehouse",name:"",level:4,group:"locations",hidden:false,army:[["bandit",96],["smuggler",56]]},
+"snakes_nest":{id:"snakes_nest",name:"",level:2,group:"locations",hidden:false,army:[["snake",9],["giant_snake",4]]},
+"spider_forest":{id:"spider_forest",name:"",level:2,group:"locations",hidden:false,army:[["spider",32],["giant_spider",8]]},
+"son_atamar":{id:"son_atamar",name:"",level:3,group:"locations",hidden:false,army:[["deserter",60],["son_atamar",30]]},
+"strange_village":{id:"strange_village",name:"",level:2,group:"locations",hidden:false,army:[["charmed_dweller",47]]},
+"south_sacred_place":{id:"south_sacred_place",name:"",level:3,group:"locations",hidden:false,army:[["fire_elemental",28]]},
+"succubus_library":{id:"succubus_library",name:"",level:4,group:"locations",hidden:false,army:[["succubus",90]]},
+"swarm_wasp":{id:"swarm_wasp",name:"",level:4,group:"locations",hidden:false,army:[["giant_wasp",540]]},
+"temple_gargoyle":{id:"temple_gargoyle",name:"",level:2,group:"locations",hidden:false,army:[["gargoyle",14]]},
+"troll_cave":{id:"troll_cave",name:"",level:2,group:"locations",hidden:false,army:[["troll_cave",9]]},
+"west_sacred_place":{id:"west_sacred_place",name:"",level:3,group:"locations",hidden:false,army:[["earth_elemental",28]]},
+"wolf_pack":{id:"wolf_pack",name:"",level:1,group:"locations",hidden:false,army:[["wolf",9]]},
+"worn_down_crypt":{id:"worn_down_crypt",name:"",level:3,group:"locations",hidden:false,army:[["skeletal_knight",67]]},
+"huge_cave":{id:"huge_cave",name:"",level:5,group:"locations",hidden:false,army:[["skeletal_knight",50],["skeleton",750]]},
+"wyvern_nest":{id:"wyvern_nest",name:"",level:2,group:"locations",hidden:false,army:[["wyvern",12]]},
+"cave_bats":{id:"cave_bats",name:"",level:0,group:"locations",hidden:false,army:[["vampire_bat",2]]},
+"kobold_looters":{id:"kobold_looters",name:"",level:0,group:"locations",hidden:false,army:[["kobold",2]]},
+"nasty_pillagers":{id:"nasty_pillagers",name:"",level:0,group:"locations",hidden:false,army:[["pillager",2]]},
+"prisoner_wagon":{id:"prisoner_wagon",name:"",level:0,group:"locations",hidden:false,army:[["bandit",2]]},
+"rat_cellar":{id:"rat_cellar",name:"",level:0,group:"locations",hidden:false,army:[["dirty_rat",3]]},
+"necropolis":{id:"necropolis",name:"",level:6,group:"locations",hidden:false,army:[["necromancer",170],["skeleton",1590],["zombie",1590]]},
+"vampire_crypt":{id:"vampire_crypt",name:"",level:4,group:"locations",hidden:false,army:[["vampire_bat",120],["vampire_servant",60]]},
+"vampire_lair":{id:"vampire_lair",name:"",level:4,group:"locations",hidden:false,army:[["vampire",1],["vampire_servant",140]]},
+"far_west_island":{id:"far_west_island",name:"",level:0,group:"locations",hidden:false,army:[["ravenous_crab",15]]},
+"old_outpost":{id:"old_outpost",name:"",level:4,group:"locations",hidden:false,army:[["bandit",120],["mercenary_veteran",90],["deserter",50]]},
+"forgotten_shelter":{id:"forgotten_shelter",name:"",level:4,group:"locations",hidden:false,army:[["spectra_memory",250]]},
+"ancient_giant":{id:"ancient_giant",name:"",level:5,group:"locations",hidden:false,army:[["ancient_giant",1],["hill_giant",140]]},
+"zombie_horde_small":{id:"zombie_horde_small",name:"",level:4,group:"locations",hidden:false,army:[["zombie",920]]},
+"zombie_horde_large":{id:"zombie_horde_large",name:"",level:5,group:"locations",hidden:false,army:[["zombie",2920]]},
+"zombie_horde_huge":{id:"zombie_horde_huge",name:"",level:6,group:"locations",hidden:false,army:[["zombie",5920]]},
+"nightdale_protectorate":{id:"nightdale_protectorate",name:"",level:5,group:"factions",hidden:false,army:[["archer",110],["warrior",120],["commander",1]]},
+"theresmore_wanders":{id:"theresmore_wanders",name:"",level:5,group:"factions",hidden:false,army:[["archer",60],["spearman",40],["light_cavarly",120],["commander",1]]},
+"western_kingdom":{id:"western_kingdom",name:"",level:5,group:"factions",hidden:false,army:[["crossbowman",60],["man_at_arms",50],["knight",100],["commander",1]]},
+"zultan_emirate":{id:"zultan_emirate",name:"",level:5,group:"factions",hidden:false,army:[["archer",120],["spearman",80],["heavy_warrior",50],["commander",1]]},
+"sssarkat_empire":{id:"sssarkat_empire",name:"",level:6,group:"factions",hidden:false,army:[["lizard_warrior",250],["lizard_archer",120],["lizard_shaman",20],["lizard_commander",1]]},
+"scalerock_tribes":{id:"scalerock_tribes",name:"",level:6,group:"factions",hidden:false,army:[["draconic_warrior",250],["draconic_diver",120],["draconic_mage",20],["draconic_leader",1]]},
+"enso_multitude":{id:"enso_multitude",name:"",level:7,group:"factions",hidden:false,army:[["musket_ashigaru",250],["katana_samurai",150],["cavarly_archer",100],["daimyo",1]]},
+"kobu_dominion_r":{id:"kobu_dominion_r",name:"",level:7,group:"factions",hidden:false,army:[["mobile_turret",250],["hover_tank",450],["mechanical_wolf",650],["giant_death_robot",1]]},
+"king_kobold_nation":{id:"king_kobold_nation",name:"",level:5,group:"factions",hidden:false,army:[["kobold_king",1],["kobold_champion",70],["kobold",180]]},
+"barbarian_horde":{id:"barbarian_horde",name:"",level:6,group:"factions",hidden:false,army:[["barbarian_king",1],["barbarian_chosen",50],["barbarian_drummer",5],["barbarian_warrior",150]]},
+"lich_fortress":{id:"lich_fortress",name:"",level:7,group:"factions",hidden:false,army:[["nikharul",1],["skeletal_knight",500],["skeleton",2200]]},
+"dark_knight_lord":{id:"dark_knight_lord",name:"",level:8,group:"factions",hidden:false,army:[["dark_knight_lord",1],["dark_knight",320],["ancient_ghost",1300],["ancient_legionary",1800]]},
+"baron_mordecai":{id:"baron_mordecai",name:"",level:9,group:"factions",hidden:false,army:[["baron_mordecai_darkthorn",1],["vampire",350],["skeleton",2200],["ghost",1500],["ghoul",2000]]},
+"hand_evil":{id:"hand_evil",name:"",level:9,group:"factions",hidden:false,army:[["hand_evil",1],["succubus",540],["spawn_evil",540],["greater_demon",660],["faceless_horror",680]]},
+"army_of_the_dead":{id:"army_of_the_dead",name:"",level:null,group:"events",hidden:false,army:[["skeleton",1200],["zombie",600]]},
+"army_of_goblin":{id:"army_of_goblin",name:"",level:null,group:"events",hidden:false,army:[["goblin_overlord",1],["goblin_wolfrider",50],["goblin_warrior",90]]},
+"army_of_dragon":{id:"army_of_dragon",name:"",level:null,group:"events",hidden:false,army:[["red_dragon",1],["draconic_warrior",140]]},
+"fallen_angel_army_1":{id:"fallen_angel_army_1",name:"",level:null,group:"events",hidden:false,army:[["fallen_angel",1],["demonic_musketeer",170]]},
+"fallen_angel_army_2":{id:"fallen_angel_army_2",name:"",level:null,group:"events",hidden:false,army:[["fallen_angel",1],["lesser_demon",170],["greater_demon",130]]},
+"orc_war_party_1":{id:"orc_war_party_1",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",160],["orc_stone_thrower",120]]},
+"orc_war_party_2":{id:"orc_war_party_2",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",190],["orc_berserker",70]]},
+"orc_war_party_3":{id:"orc_war_party_3",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",200],["orc_berserker",100],["orc_shaman",40],["orc_warg_rider",80]]},
+"orc_war_party_4":{id:"orc_war_party_4",name:"",level:null,group:"events",hidden:true,army:[["orc_ironskin",200],["orc_berserker",100],["orc_shaman",40],["orc_warg_rider",80],["orc_warlord",1]]},
+"orc_war_party_5":{id:"orc_war_party_5",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",300],["orc_ironskin",200],["orc_berserker",100],["orc_shaman",40],["orc_warg_rider",80],["orc_warlord",1]]},
+"orc_war_party_6":{id:"orc_war_party_6",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",30]]},
+"orc_war_party_7":{id:"orc_war_party_7",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",30],["orc_berserker",20],["orc_stone_thrower",30]]},
+"orc_war_party_8":{id:"orc_war_party_8",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",300],["orc_berserker",200],["orc_stone_thrower",300]]},
+"orc_war_party_9":{id:"orc_war_party_9",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",450],["orc_ironskin",140],["orc_berserker",10],["orc_shaman",20],["orc_warg_rider",190],["orc_warlord",3]]},
+"orc_war_party_10":{id:"orc_war_party_10",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",450],["orc_ironskin",140],["orc_berserker",10],["orc_stone_thrower",120],["orc_shaman",20],["orc_warg_rider",190],["orc_warlord",3]]},
+"orc_war_party_11":{id:"orc_war_party_11",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",100],["orc_ironskin",190],["orc_berserker",120],["orc_stone_thrower",150],["orc_shaman",90],["orc_warg_rider",110],["orc_warlord",5]]},
+"orc_war_party_12":{id:"orc_war_party_12",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",500],["orc_ironskin",390],["orc_berserker",220],["orc_stone_thrower",450],["orc_shaman",190],["orc_warg_rider",310],["orc_warlord",5]]},
+"orc_war_party_13":{id:"orc_war_party_13",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",1200],["orc_ironskin",590],["orc_berserker",320],["orc_stone_thrower",350],["orc_shaman",90],["orc_warg_rider",50],["orc_warlord",1]]},
+"orc_war_party_14":{id:"orc_war_party_14",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",400],["orc_ironskin",190],["orc_berserker",220],["orc_stone_thrower",150]]},
+"orc_war_party_15":{id:"orc_war_party_15",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",200],["orc_ironskin",490],["orc_berserker",220],["orc_stone_thrower",550]]},
+"orc_war_party_16":{id:"orc_war_party_16",name:"",level:null,group:"events",hidden:true,army:[["orc_warrior",50],["orc_ironskin",120],["orc_berserker",20],["orc_stone_thrower",30]]},
+"orc_horde_boss":{id:"orc_horde_boss",name:"",level:null,group:"events",hidden:false,army:[["orc_champion",70],["orc_warrior",155],["orc_ironskin",155],["orc_berserker",110],["orc_stone_thrower",110],["orc_flame_caster",110],["orc_shaman",80],["orc_warg_rider",130],["orc_warlord",9]]},
+"mindless_evil_boss":{id:"mindless_evil_boss",name:"",level:null,group:"events",hidden:false,army:[["mindless_evil_u",1],["spawn_evil",8200],["ghast",700],["faceless_horror",190],["archdemon",140]]}
+};
+let battleMode='attack', modeArmies={attack:CURRENT.map(x=>({...x})),defense:CURRENT_DEFENSE.map(x=>({...x}))};
+let player=modeArmies.attack, enemy=[], importedRun=null, optimized=null, optimizerPool=DEFAULT_UNLOCKED.map(x=>({...x})), resourceCaps={...DEFAULT_RESOURCE_CAPS}, armyCap=757;
+function esc(s){return String(s).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[m]))}
+function clamp(v,a,b,f){v=Number(v);return Number.isFinite(v)?Math.min(b,Math.max(a,v)):f}
+function fmt(n){return Number(n||0).toLocaleString('de-CH')}
+function titleCaseId(s){return String(s||'').split('_').map(x=>x?x[0].toUpperCase()+x.slice(1):'').join(' ')}
+function fightName(p){return p?.name||titleCaseId(p?.id||'')}
+function enemyUnit(id){const u=ENEMY_UNITS[id]||UNITS[id];return u?{...u,name:u.name||titleCaseId(id)}:null}
+function special(r){const a=[];if((r.splash||1)>1)a.push('Splash '+r.splash);if((r.trample||0)>0)a.push('Trample '+r.trample+'%');return a.join(' · ')||'—'}
+function effectiveUnit(id,run){const b=UNITS[id];if(!b)return null;let attack=b.attack,defense=b.defense;const m=(run?.modifiers||[]).find(x=>x.type==='army'&&x.id===id);for(const mod of (m?.mods||[])){if(mod.type==='stat'&&!mod.perc){if(mod.id==='attack')attack+=Number(mod.value)||0;if(mod.id==='defense')defense+=Number(mod.value)||0}}return {...b,baseAttack:b.attack,baseDefense:b.defense,attack,defense}}
+function setPlayer(rows){player=rows;modeArmies[battleMode]=player}
+function settlementUnit(run=importedRun){if(run){const u=effectiveUnit('settlement_defenses',run);if(u)return {...u,qty:1,fixed:true}}return {...CURRENT_DEFENSE[0]}}
+function rowsFromRun(run,mode){
+  if(!run)return mode==='defense'?CURRENT_DEFENSE.map(x=>({...x})):CURRENT.map(x=>({...x}));
+  const byId=new Map((run.army||[]).map(x=>[x.id,x]));const key=mode==='defense'?'defense':'away';let ids=(run.armyOrder?.[key]||[]).slice();
+  for(const a of (run.army||[])){const qty=mode==='defense'?Math.max(0,(Number(a.value)||0)-(Number(a.away)||0)):Math.max(0,Number(a.away)||0);if(qty>0&&!ids.includes(a.id))ids.push(a.id)}
+  const rows=[];for(const id of ids){const a=byId.get(id),u=effectiveUnit(id,run);if(!a||!u)continue;const qty=mode==='defense'?Math.max(0,(Number(a.value)||0)-(Number(a.away)||0)):Math.max(0,Number(a.away)||0);if(!qty)continue;if(mode==='attack'&&u.category===0)continue;if(mode==='defense'&&u.category===0&&id!=='settlement_defenses')continue;rows.push({...u,qty,pos:rows.length,fixed:id==='settlement_defenses'})}
+  if(mode==='defense'&&!rows.some(x=>x.id==='settlement_defenses'))rows.unshift(settlementUnit(run));
+  if(mode==='defense'){const i=rows.findIndex(x=>x.id==='settlement_defenses');if(i>0){const [sd]=rows.splice(i,1);rows.unshift(sd)}}
+  return rows;
+}
+function renderDefenseBuffs(){
+  const show=battleMode==='defense';$('defenseSummary').classList.toggle('hidden',!show);$('defenseBuffDetails').classList.toggle('hidden',!show);if(!show)return;
+  const sd=player.find(x=>x.id==='settlement_defenses')||settlementUnit();const garrison=player.filter(x=>x.category>0).reduce((s,x)=>s+x.qty,0);
+  $('defenseSummary').innerHTML=`<b>Settlement Defense aktiv:</b> ${fmt(sd.attack)} ATT / ${fmt(sd.defense)} DEF · Splash ${sd.splash||20}. Sie steht immer auf Position 1 und faengt gegnerischen Schaden vor der Garrison ab. Aktuelle Garrison: <b>${fmt(garrison)}</b> Einheiten.`;
+  const mods=(importedRun?.modifiers||[]).find(x=>x.type==='army'&&x.id==='settlement_defenses')?.mods||[];
+  if(!mods.length){$('defenseBuffList').innerHTML=`<div class="sub">Basis: 1 ATT / 50 DEF. Vorgeladener Test-Save: +614 ATT / +1’162 DEF. Fuer die genaue Aufschluesselung bitte den Save importieren.</div>`;return}
+  const rows=mods.filter(m=>m.type==='stat'&&!m.perc&&(m.id==='attack'||m.id==='defense')).map(m=>`<tr><td>${esc(titleCaseId(m.idOrig||m.typeOrig||'Modifier'))}</td><td>${esc(titleCaseId(m.typeOrig||''))}</td><td>${m.id==='attack'?'<b class="ok">+'+fmt(m.value)+' ATT</b>':'+'+fmt(m.value)+' DEF'}</td></tr>`).join('');
+  $('defenseBuffList').innerHTML=`<div class="sub">Basis Settlement: 1 ATT / 50 DEF · Save-Modifier ergeben effektiv <b>${fmt(sd.attack)} ATT / ${fmt(sd.defense)} DEF</b>.</div><div class="scroll section-gap"><table><thead><tr><th>Quelle</th><th>Typ</th><th>Bonus</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function updateModeUI(){
+  const def=battleMode==='defense';$('sArmyLabel').textContent=def?'Garrison':'Angriffsarmee';$('sTypesLabel').textContent=def?'Garrison-Typen':'Einheitenarten';$('playerHeading').textContent=def?'3 · Deine Garrison & Stadtverteidigung':'3 · Deine Angriffsarmee';$('playerSub').textContent=def?'Garrison = Gesamtbestand − Away · Settlement Defense + Stadt-/Spell-Buffs':'Away-Einheiten · effektive ATT/DEF inklusive Save-Modifier';
+  $('modeInfo').innerHTML=def?'<b>Verteidigung:</b> Verwendet nur die zu Hause verfuegbare Garrison (<code>value − away</code>), die defensive Battle Order <code>armyOrder.defense</code> und Settlement Defenses inklusive aller Stadt-, Achievement- und Spell-Modifier.':'<b>Angriff:</b> Verwendet die Away-Armee aus dem Save und die Battle Order <code>armyOrder.away</code>.';
+  $('optimizerNotice').innerHTML=def?'<b>Preis/Leistung Garrison:</b> Die Settlement Defense ist kostenlos und fest gesetzt. Der Optimizer sucht zusaetzliche/rekrutierbare Garrison-Einheiten; bereits vorhandene Truppen koennen aus der Away-Armee zurueckgerufen werden und zaehlen nicht als neue Rekrutierung. Jede gefundene Garrison wird inklusive Stadtverteidigung verifiziert.':'<b>Preis/Leistung:</b> Der Optimizer prueft alle im Save freigeschalteten Kampfeinheiten. Rekrutierungskosten werden relativ zu deinen aktuellen Ressourcen-Caps gewichtet; dadurch sind unterschiedliche Ressourcen vergleichbar. Jede gefundene Armee wird mit derselben Kampflogik nochmals verifiziert. Das ist eine starke Heuristik, aber kein mathematischer Globalbeweis.';
+  renderDefenseBuffs();currentMeta();
+}
+function switchBattleMode(mode){battleMode=mode==='defense'?'defense':'attack';if(!modeArmies[battleMode])modeArmies[battleMode]=rowsFromRun(importedRun,battleMode);player=modeArmies[battleMode];renderPlayer();updateModeUI();resetSimulation()}
+
+function currentMeta(){const combat=player.filter(x=>x.qty>0&&x.category>0);$('sArmy').textContent=fmt(combat.reduce((s,x)=>s+x.qty,0));$('sTypes').textContent=String(combat.length)}
+function economyArmy(){return importedRun?.army||defaultOwnedArmy()}
+function economyPopulation(){return importedRun?.population||DEFAULT_POPULATION}
+function economyResources(){return importedRun?.resources||Object.values(DEFAULT_RESOURCES)}
+function ownedArmyMap(){const m=new Map();for(const a of economyArmy()){if(!a?.id||a.id==='settlement_defenses')continue;m.set(a.id,Number(a.value)||0)}return m}
+function flowBreakdown(rows){const neg={},pos={};for(const a of rows){const q=Number(a.value??a.qty)||0,flow=UNIT_FLOW[a.id]||{};for(const [res,v0] of Object.entries(flow)){const v=Number(v0)*q;if(v<0)neg[res]=(neg[res]||0)-v;else if(v>0)pos[res]=(pos[res]||0)+v}}return {neg,pos}}
+function extraRecruitRows(){const own=ownedArmyMap(),out=[];for(const r of player){if(r.id==='settlement_defenses'||!r.category)continue;const extra=Math.max(0,(Number(r.qty)||0)-(own.get(r.id)||0));if(extra>0)out.push({id:r.id,value:extra,qty:extra})}return out}
+function projectedOwnedRows(){const base=economyArmy().filter(a=>a.id!=='settlement_defenses').map(a=>({id:a.id,value:Number(a.value)||0}));const by=new Map(base.map(a=>[a.id,a]));for(const e of extraRecruitRows()){const a=by.get(e.id);if(a)a.value+=e.value;else{const n={id:e.id,value:e.value};base.push(n);by.set(e.id,n)}}return base}
+function fmtRate(v){v=Number(v)||0;const a=Math.abs(v);return (v<0?'−':'')+(a>=1000?fmt(a):a.toLocaleString('de-CH',{maximumFractionDigits:2}))+'/s'}
+function flowInline(flow){const bits=[];for(const [res,v] of Object.entries(flow||{})){if(!v)continue;bits.push(`${RESOURCE_NAMES[res]||titleCaseId(res)} ${v>0?'+':'−'}${Math.abs(v).toLocaleString('de-CH',{maximumFractionDigits:2})}/s`)}return bits.join(' · ')||'—'}
+function estimatePositive(r,base){const p=Math.max(0,Number(base)||0),perc=Number(r?.perc)||0,mul=Number(r?.percMul)||0;return p*(1+(perc/100)*(1+mul/100))}
+function renderEconomy(){
+  if(!$('ecoCapNow'))return;
+  // Immer exakt den aktuell oben ausgewaehlten Build verwenden.
+  const selected=player.filter(r=>r.id!=='settlement_defenses'&&r.category>0&&(Number(r.qty)||0)>0).map(r=>({id:r.id,value:Number(r.qty)||0,qty:Number(r.qty)||0}));
+  const ownMap=ownedArmyMap();
+  const selectedUsed=selected.reduce((s,a)=>s+(Number(a.value)||0),0), cap=Math.max(1,Number(armyCap)||757), reserve=cap-selectedUsed;
+
+  $('ecoCapNow').textContent=`${fmt(selectedUsed)} / ${fmt(cap)}`;
+  $('ecoCapNow').className='v '+(selectedUsed>cap?'err':selectedUsed===cap?'warn':'ok');
+  $('ecoCapNowSub').textContent=selectedUsed>cap?`${fmt(selectedUsed-cap)} ueber Cap`:selectedUsed===cap?'Build fuellt das Cap exakt':`${fmt(reserve)} Plaetze frei`;
+  $('ecoCapPlan').textContent=reserve>=0?fmt(reserve):`−${fmt(Math.abs(reserve))}`;
+  $('ecoCapPlan').className='v '+(reserve<0?'err':reserve===0?'warn':'ok');
+  $('ecoCapPlanSub').textContent=reserve<0?'Build ist zu gross':reserve===0?'keine Reserve':`${fmt(reserve)} weitere Einheiten moeglich`;
+
+  if(selectedUsed>cap)$('ecoCapWarning').innerHTML=`<b class="err">Army Cap ueberschritten:</b> Dein aktuell ausgewaehlter Build hat <b>${fmt(selectedUsed)}</b> Einheiten bei einem Cap von <b>${fmt(cap)}</b>. Entferne mindestens <b>${fmt(selectedUsed-cap)}</b> Einheiten oder erhoehe dein Army Cap.`;
+  else if(selectedUsed===cap)$('ecoCapWarning').innerHTML=`<b class="warn">Army Cap voll:</b> Der ausgewaehlte Build nutzt exakt <b>${fmt(selectedUsed)} / ${fmt(cap)}</b>.`;
+  else $('ecoCapWarning').innerHTML=`<b class="ok">Army Cap ausreichend:</b> Der ausgewaehlte Build nutzt <b>${fmt(selectedUsed)} / ${fmt(cap)}</b>; <b>${fmt(reserve)}</b> Plaetze bleiben frei.`;
+
+  const buildFlow=flowBreakdown(selected);
+  const upkeepEntries=Object.entries(buildFlow.neg).sort((a,b)=>b[1]-a[1]);
+  const incomeEntries=Object.entries(buildFlow.pos).sort((a,b)=>b[1]-a[1]);
+  const upkeepText=upkeepEntries.length?upkeepEntries.map(([res,v])=>`<b>${esc(RESOURCE_NAMES[res]||titleCaseId(res))}</b>: ${fmtRate(-v)}`).join(' &nbsp; · &nbsp; '):'<b>Kein laufender Unterhalt</b>';
+  const incomeText=incomeEntries.length?`<div class="sub section-gap">Positive Einheitenertraege: ${incomeEntries.map(([res,v])=>`${esc(RESOURCE_NAMES[res]||titleCaseId(res))} +${Number(v).toLocaleString('de-CH',{maximumFractionDigits:2})}/s`).join(' · ')}</div>`:'';
+  $('ecoTotalUpkeep').innerHTML=`${upkeepText}${incomeText}`;
+
+  const rows=[];
+  for(const r of player){
+    if(r.id==='settlement_defenses'||!r.category||(Number(r.qty)||0)<=0)continue;
+    const id=r.id,planned=Number(r.qty)||0,owned=ownMap.get(id)||0,diff=planned-owned,flow=UNIT_FLOW[id]||{},name=UNITS[id]?.name||r.name||titleCaseId(id);
+    const perNeg=Object.fromEntries(Object.entries(flow).filter(([,v])=>v<0).map(([k,v])=>[k,-v]));
+    const buildNeg=Object.fromEntries(Object.entries(perNeg).map(([k,v])=>[k,v*planned]));
+    const buildPos=Object.fromEntries(Object.entries(flow).filter(([,v])=>v>0).map(([k,v])=>[k,v*planned]));
+    rows.push({id,name,owned,planned,diff,perNeg,buildNeg,buildPos});
+  }
+  $('ecoUnitTable').innerHTML=`<table><thead><tr><th>Einheit</th><th>Build</th><th>Besitz</th><th>Differenz</th><th>Unterhalt / Einheit</th><th>Unterhalt Build</th><th>Ertrag Build</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td><b>${fmt(x.planned)}</b></td><td>${fmt(x.owned)}</td><td>${x.diff>0?`<span class="warn">+${fmt(x.diff)} bauen</span>`:x.diff<0?`${fmt(Math.abs(x.diff))} nicht im Build`:'0'}</td><td>${flowInline(Object.fromEntries(Object.entries(x.perNeg).map(([k,v])=>[k,-v])))}</td><td>${flowInline(Object.fromEntries(Object.entries(x.buildNeg).map(([k,v])=>[k,-v])))}</td><td>${flowInline(x.buildPos)}</td></tr>`).join('')}</tbody></table>`;
+}
+function formatDuration(sec){sec=Math.max(0,Number(sec)||0);if(sec<60)return `${Math.floor(sec)}s`;if(sec<3600)return `${Math.floor(sec/60)}m`;if(sec<86400)return `${(sec/3600).toFixed(1)}h`;return `${(sec/86400).toFixed(1)}d`}
+function renderPlayer(){
+ $('playerList').innerHTML=player.length?player.map((r,i)=>{const fixed=battleMode==='defense'&&r.id==='settlement_defenses';return `<div class="unit"><div class="unit-head"><div><div class="unit-name">#${i+1} ${esc(r.name)}</div><div class="meta"><span class="pill type${r.category}">${CAT[r.category]}</span>Order ${r.order} · ${special(r)}${fixed?' · <b class="ok">Stadtverteidigung</b>':''}</div></div><div class="order-btns">${fixed?'<span class="pill">Fix Position 1</span>':`<button class="iconbtn" data-up="${i}" title="Nach vorne">↑</button><button class="iconbtn" data-down="${i}" title="Nach hinten">↓</button><button class="iconbtn" data-del="${i}" title="Entfernen">×</button>`}</div></div><div class="unit-fields"><div class="field"><label>Anzahl</label>${fixed?'<div class="readonly">1</div>':`<input data-qty="${i}" type="number" min="0" max="60000" value="${r.qty}">`}</div><div><div class="label">ATT effektiv</div><div class="readonly">${r.attack}</div></div><div><div class="label">ATT Bonus</div><div class="readonly ${r.attack>r.baseAttack?'ok':''}">+${r.attack-r.baseAttack}</div></div><div><div class="label">DEF effektiv</div><div class="readonly">${r.defense}</div></div><div><div class="label">DEF Bonus</div><div class="readonly ${r.defense>r.baseDefense?'ok':''}">+${r.defense-r.baseDefense}</div></div></div></div>`}).join(''):'<div class="muted">Keine Einheiten.</div>';
+ document.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>move(+b.dataset.up,-1));document.querySelectorAll('[data-down]').forEach(b=>b.onclick=()=>move(+b.dataset.down,1));document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{player.splice(+b.dataset.del,1);renderPlayer();renderDefenseBuffs()});document.querySelectorAll('[data-qty]').forEach(x=>x.onchange=()=>{player[+x.dataset.qty].qty=clamp(x.value,0,60000,0);currentMeta();renderDefenseBuffs();renderEconomy()});currentMeta();renderDefenseBuffs();renderEconomy();
+}
+function move(i,d){const j=i+d;if(j<0||j>=player.length)return;if(battleMode==='defense'&&(player[i]?.id==='settlement_defenses'||player[j]?.id==='settlement_defenses'))return;[player[i],player[j]]=[player[j],player[i]];renderPlayer()}
+function diffQty(base,cap){const d=+$('difficulty').value,m=d===1?1.5:d===2?2:d===3?4.5:1,b=d===1?1.1:d===2?1.2:d===3?1.3:1;return cap?base:Math.round(base*m*b)}
+function loadEnemy(){const k=$('enemyPreset').value;if(k==='custom'){enemy=[];$('sEnemy').textContent='Benutzerdefiniert';renderEnemy();return}const p=PRESETS[k];if(!p){enemy=[];$('sEnemy').textContent='—';renderEnemy();return}const missing=[];enemy=p.army.map(([id,q])=>{const u=enemyUnit(id);if(!u){missing.push(id);return null}return {...u,qty:diffQty(q,u.cap)}}).filter(Boolean);$('sEnemy').textContent=fightName(p);$('enemyInfo').textContent=(p.level==null?'':`Level ${p.level} · `)+(p.hidden?'Versteckt/Event · ':'')+fmt(enemy.reduce((s,x)=>s+x.qty,0))+' Einheiten';if(missing.length)$('simStatus').textContent='Fehlende Gegnerdaten: '+missing.join(', ');renderEnemy();}
+function renderEnemy(){const total=enemy.reduce((s,x)=>s+x.qty,0);const p=PRESETS[$('enemyPreset').value];$('enemyInfo').textContent=(p&&p.level!=null?`Level ${p.level} · `:'')+(p&&p.hidden?'Versteckt/Event · ':'')+fmt(total)+' Einheiten';$('enemyList').innerHTML=enemy.length?enemy.map((r,i)=>`<div class="unit"><div class="unit-head"><div><div class="unit-name">${esc(r.name)} × ${fmt(r.qty)}</div><div class="meta"><span class="pill type${r.category}">${CAT[r.category]}</span>Order ${r.order} · ATT ${r.attack} · DEF ${r.defense} · ${special(r)}</div></div><button class="iconbtn" data-edel="${i}">×</button></div></div>`).join(''):'<div class="muted">Keine Gegner geladen.</div>';document.querySelectorAll('[data-edel]').forEach(b=>b.onclick=()=>{enemy.splice(+b.dataset.edel,1);renderEnemy()})}
+function expand(rows,attacker,isUser,manual){let serial=0,a=[];for(let ri=0;ri<rows.length;ri++){const r=rows[ri];for(let n=0;n<r.qty;n++){a.push({...r,serial:serial++,curDefense:r.defense,sortOrder:isUser&&manual?ri:Number(attacker?r.category:r.order)})}}return a.sort((x,y)=>x.sortOrder-y.sortOrder||x.serial-y.serial)}
+function effectiveType(cat){return cat===0?0:cat===4?1:cat+1}
+function singleAttack(att,defs,dead){if(!defs.length)return;const splash=att.splash||1;if(splash>1){const remove=[];for(let i=0;i<splash;i++){const d=defs[i];if(!d)break;const eff=effectiveType(att.category)===d.category?2:1;if(att.attack*eff>=d.curDefense){dead.push(d.serial);remove.push(i)}else d.curDefense-=att.attack*eff}for(let i=remove.length-1;i>=0;i--)defs.splice(remove[i],1);return}let rem=att.attack;while(defs[0]&&rem>0){const d=defs[0];const eff=effectiveType(att.category)===d.category?2:1;if(rem*eff>=d.curDefense){rem=(att.trample||0)>0?Math.floor((rem-d.curDefense)*(att.trample/100)):0;dead.push(d.serial);defs.shift()}else{d.curDefense-=rem*eff;rem=0}}}
+function summarize(arr){const m=new Map();for(const x of arr)m.set(x.id,{name:x.name,qty:(m.get(x.id)?.qty||0)+1});return [...m.values()]}
+function simulateRows(pRows,eRows,manual=$('useOrder').checked,withLog=false){const defending=battleMode==='defense';pRows=pRows.map(x=>({...x}));if(defending&&!pRows.some(x=>x.id==='settlement_defenses'))pRows.unshift(settlementUnit());pRows=pRows.filter(x=>x.qty>0&&(x.category>0||(defending&&x.id==='settlement_defenses')));eRows=eRows.filter(x=>x.qty>0);let PA=expand(pRows,true,true,manual),PD=expand(pRows,false,true,manual),EA=expand(eRows,true,false,false),ED=expand(eRows,false,false,false);const pStart=PA.length,eStart=EA.length;const log=[];let rounds=0;while(PA.length&&EA.length&&rounds<5000){rounds++;const dp=[],de=[],pBefore=PD.length,eBefore=ED.length;for(const a of PA){if(!ED.length)break;singleAttack(a,ED,de)}for(const a of EA){if(!PD.length)break;singleAttack(a,PD,dp)}if(de.length){const set=new Set(de);EA=EA.filter(x=>!set.has(x.serial))}if(dp.length){const set=new Set(dp);PA=PA.filter(x=>!set.has(x.serial))}if(withLog&&log.length<100)log.push({round:rounds,pLost:pBefore-PD.length,eLost:eBefore-ED.length,pLeft:PA.length,eLeft:EA.length})}
+return {win:PA.length>0&&EA.length===0,simultaneous:PA.length===0&&EA.length===0,rounds,pStart,eStart,pAlive:PA.length,eAlive:EA.length,pSurvivors:summarize(PA),eSurvivors:summarize(EA),log}}
+function showResult(r,sourceRows=player){const losses=new Map(sourceRows.map(x=>[x.id,{name:x.name,start:x.qty,left:0}]));for(const s of r.pSurvivors){const hit=[...losses.entries()].find(([id])=>id===s.id);if(hit)hit[1].left=s.qty}const lossRows=[...losses.values()].filter(x=>x.start>0).map(x=>({...x,lost:x.start-x.left}));$('result').innerHTML=`<div class="report"><div class="result-title ${r.win?'win':'lose'}">${r.win?'SIEG':'NIEDERLAGE'}</div>${r.simultaneous?'<div class="warn">Beide Seiten wurden in derselben Runde vernichtet. Wie im Referenzcode gilt das nicht als Sieg.</div>':''}<div class="grid g4 section-gap"><div class="stat"><div class="k">Runden</div><div class="v">${r.rounds}</div></div><div class="stat"><div class="k">Eigene Verluste</div><div class="v">${fmt(r.pStart-r.pAlive)}</div></div><div class="stat"><div class="k">Gegner Verluste</div><div class="v">${fmt(r.eStart-r.eAlive)}</div></div><div class="stat"><div class="k">Eigene Ueberlebende</div><div class="v">${fmt(r.pAlive)}</div></div></div><div class="grid g2 section-gap"><div><h3>Verluste / Ueberlebende</h3><div class="scroll"><table><thead><tr><th>Einheit</th><th>Start</th><th>Verlust</th><th>Uebrig</th></tr></thead><tbody>${lossRows.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.start}</td><td>${x.lost}</td><td>${x.left}</td></tr>`).join('')}</tbody></table></div></div><div><h3>Gegner uebrig</h3>${r.eSurvivors.length?r.eSurvivors.map(x=>`<div>${esc(x.name)}: <b>${fmt(x.qty)}</b></div>`):'<div class="ok">Keine</div>'}</div></div>${r.log.length?`<details class="section-gap"><summary>Rundenprotokoll (max. 100)</summary><div class="scroll"><table><thead><tr><th>Runde</th><th>Du verlierst</th><th>Gegner verliert</th><th>Du uebrig</th><th>Gegner uebrig</th></tr></thead><tbody>${r.log.map(x=>`<tr><td>${x.round}</td><td>${x.pLost}</td><td>${x.eLost}</td><td>${x.pLeft}</td><td>${x.eLeft}</td></tr>`).join('')}</tbody></table></div></details>`:''}</div>`;$('result').classList.remove('hidden')}
+function doSim(){if(!enemy.length){$('simStatus').textContent='Bitte Gegner laden.';return}const r=simulateRows(player,enemy,$('useOrder').checked,true);showResult(r);$('simStatus').textContent=battleMode==='defense'?'Verteidigungssimulation abgeschlossen. Garrison + Settlement Defense wurden verwendet.':'Angriffssimulation abgeschlossen.'}
+function resetSimulation(){
+  optimized=null;
+  $('result').classList.add('hidden');
+  $('result').innerHTML='';
+  $('optimizerBox').classList.add('hidden');
+  $('optimizerResult').innerHTML='';
+  $('optimizerStatus').textContent='Optimizer...';
+  $('optimizerProgress').style.width='0%';
+  $('applyOptimized').disabled=true;
+  $('simStatus').textContent='Simulation zurueckgesetzt. Armee und Gegner bleiben unveraendert.';
+}
+function capMapFromRun(run){const out={};for(const c of (run?.caps||[])){if(c&&c.id&&Number(c.value)>0)out[c.id]=Number(c.value)}return out}
+function initOptimizerFromRun(run){
+  if(!run){optimizerPool=DEFAULT_UNLOCKED.map(x=>({...x}));resourceCaps={...DEFAULT_RESOURCE_CAPS};armyCap=757;return}
+  const byId=new Map((run.army||[]).map(x=>[x.id,x]));
+  optimizerPool=[];
+  for(const a of (run.army||[])){
+    const u=effectiveUnit(a.id,run);
+    if(!u||!u.category)continue;
+    optimizerPool.push({...u,owned:Number(a.value)||0,qty:0,limit:UNIT_LIMITS[a.id]??Infinity});
+  }
+  resourceCaps=capMapFromRun(run);
+  armyCap=Math.max(1,Number(resourceCaps.army)||Number((run.caps||[]).find(x=>x.id==='army')?.value)||757);
+}
+function unitCostIndex(id){
+  const c=UNIT_COSTS[id];if(!c)return Infinity;
+  let score=0;
+  for(const [res,val] of Object.entries(c)){
+    const cap=Number(resourceCaps[res])||Number(DEFAULT_RESOURCE_CAPS[res])||100000;
+    score+=Number(val)/Math.max(1,cap);
+  }
+  return Math.max(score,1e-9);
+}
+function armyCosts(rows,additionalOnly=false){
+  const totals={};let index=0;
+  for(const r of rows){
+    const cost=UNIT_COSTS[r.id];if(!cost)continue;
+    const owned=optimizerPool.find(x=>x.id===r.id)?.owned||0;
+    const q=additionalOnly?Math.max(0,(Number(r.qty)||0)-owned):(Number(r.qty)||0);
+    if(!q)continue;
+    for(const [res,val] of Object.entries(cost))totals[res]=(totals[res]||0)+val*q;
+    index+=unitCostIndex(r.id)*q;
+  }
+  return {totals,index};
+}
+function formatCosts(costs){
+  const names={gold:'Gold',wood:'Wood',stone:'Stone',copper:'Copper',iron:'Iron',food:'Food',horse:'Horse',faith:'Faith',mana:'Mana',supplies:'Supplies',crystal:'Crystal',steel:'Steel',saltpetre:'Saltpetre',natronite:'Natronite'};
+  const es=Object.entries(costs||{}).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  return es.length?es.map(([k,v])=>`${esc(names[k]||titleCaseId(k))}: <b>${fmt(v)}</b>`).join(' · '):'Keine zusaetzlichen Rekrutierungskosten';
+}
+function battleOrderSort(rows){
+  return rows.slice().sort((a,b)=>{
+    if(a.id==='settlement_defenses')return -1;if(b.id==='settlement_defenses')return 1;
+    const as=(a.splash||1)>1?(a.splash||1):0,bs=(b.splash||1)>1?(b.splash||1):0,at=a.trample||0,bt=b.trample||0;
+    if(as===bs&&as===0){if(at===bt&&at===0){if(a.defense===b.defense)return a.attack-b.attack;return b.defense-a.defense}return at*a.attack-bt*b.attack}
+    return as*a.attack-bs*b.attack;
+  });
+}
+function enemyProfile(){const t={1:0,2:0,3:0,4:0};let total=0;for(const e of enemy){const q=Number(e.qty)||0;t[e.category]=(t[e.category]||0)+q;total+=q}return {t,total:Math.max(1,total)}}
+function combatValue(u,prof){
+  const target=u.category===4?1:u.category+1;
+  const avgEff=1+(prof.t[target]||0)/prof.total;
+  const splash=Math.min(5,1+Math.max(0,(u.splash||1)-1)*0.55);
+  const trample=1+(u.trample||0)/250;
+  const atk=(u.attack||0)*avgEff*splash*trample;
+  const def=(u.defense||0)*(u.order===1?1.35:u.order===2?1.08:.82);
+  return atk*.62+def*.38;
+}
+function recipeRows(recipe,total){
+  const items=recipe.map(x=>({u:x.u,w:Math.max(.000001,x.w),q:0})).filter(x=>x.u&&Number.isFinite(unitCostIndex(x.u.id)));
+  if(!items.length||total<=0)return [];
+  total=Math.min(Math.max(1,Math.floor(total)),armyCap);
+  const sum=items.reduce((s,x)=>s+x.w,0);
+  let used=0;
+  for(const x of items){const lim=Math.min(Number.isFinite(x.u.limit)?x.u.limit:armyCap,armyCap);x.q=Math.min(lim,Math.floor(total*x.w/sum));used+=x.q}
+  let guard=0;
+  while(used<total&&guard<total*items.length+10){guard++;let best=null,bestNeed=-Infinity;for(const x of items){const lim=Math.min(Number.isFinite(x.u.limit)?x.u.limit:armyCap,armyCap);if(x.q>=lim)continue;const ideal=total*x.w/sum;const need=ideal-x.q;if(need>bestNeed){bestNeed=need;best=x}}if(!best)break;best.q++;used++}
+  let rows=items.filter(x=>x.q>0).map(x=>({...x.u,qty:x.q}));
+  if($('useOrder').checked)rows=battleOrderSort(rows);
+  return rows;
+}
+async function minimizeCostRows(seed,stepCb){
+  let work=seed.map(x=>({...x}));
+  for(let pass=0;pass<3;pass++){
+    const idx=[...work.keys()].sort((a,b)=>(unitCostIndex(work[b].id)*work[b].qty)-(unitCostIndex(work[a].id)*work[a].qty));
+    for(const i of idx){
+      const original=work[i]?.qty||0;if(original<=0)continue;
+      let lo=0,hi=original;
+      while(lo<hi){const mid=Math.floor((lo+hi)/2),old=work[i].qty;work[i].qty=mid;const ok=simulateRows(work,enemy,$('useOrder').checked,false).win;work[i].qty=old;if(ok)hi=mid;else lo=mid+1}
+      work[i].qty=lo;
+      if(stepCb)stepCb();
+      await new Promise(r=>setTimeout(r,0));
+    }
+    work=work.filter(x=>x.qty>0);
+  }
+  return work;
+}
+function optimizerSummary(rows){
+  const total=rows.reduce((s,x)=>s+x.qty,0),full=armyCosts(rows,false),add=armyCosts(rows,true);
+  const table=rows.map((r,i)=>{const owned=optimizerPool.find(x=>x.id===r.id)?.owned||0;const need=Math.max(0,r.qty-owned);return `<tr><td>${i+1}</td><td>${esc(r.name)}</td><td>${fmt(r.qty)}</td><td>${fmt(owned)}</td><td>${need?'<b class="warn">+'+fmt(need)+'</b>':'0'}</td><td>${(unitCostIndex(r.id)*1000).toFixed(2)}</td></tr>`}).join('');
+  return `<div class="report"><h3>${battleMode==='defense'?'Beste gefundene Preis/Leistung-Garrison':'Beste gefundene Preis/Leistung-Armee'}</h3><div class="grid g4"><div class="stat"><div class="k">Einheiten</div><div class="v">${fmt(total)}</div></div><div class="stat"><div class="k">Army Cap</div><div class="v">${fmt(armyCap)}</div></div><div class="stat"><div class="k">Kostenindex</div><div class="v">${(full.index*1000).toFixed(1)}</div></div><div class="stat"><div class="k">Battle Order</div><div class="v" style="font-size:16px">${$('useOrder').checked?'Auto-sort':'Standard'}</div></div></div><div class="scroll section-gap"><table><thead><tr><th>#</th><th>Einheit</th><th>Soll</th><th>Besitz</th><th>Neu</th><th>Kostenindex/Stk.</th></tr></thead><tbody>${table}</tbody></table></div><div class="section-gap"><div class="label">Rekrutierungskosten der gesamten Zielarmee</div><div>${formatCosts(full.totals)}</div></div><div class="section-gap"><div class="label">Davon mit deinem aktuellen Besitz noch neu zu rekrutieren</div><div>${formatCosts(add.totals)}</div></div><div class="sub section-gap">Der Kostenindex normalisiert jede Ressource gegen deine aktuelle Lager-Cap. Er dient nur zum Vergleich verschiedener Ressourcen; die exakten Ressourcenmengen stehen oben.${battleMode==='defense'?' Settlement Defenses sind fest, kosten keine Army Cap und sind nicht in den Rekrutierungskosten enthalten. Besitz umfasst auch Truppen, die aktuell Away sind und zur Garrison zurueckgerufen werden koennen.':''}</div></div>`;
+}
+async function optimizeArmy(){
+  if(!enemy.length){$('simStatus').textContent='Bitte Gegner laden.';return}
+  const usable=optimizerPool.filter(u=>UNIT_COSTS[u.id]&&u.category>0);
+  const missing=optimizerPool.filter(u=>!UNIT_COSTS[u.id]&&u.category>0);
+  if(!usable.length){$('simStatus').textContent='Keine freigeschalteten Einheiten mit hinterlegten Rekrutierungskosten gefunden.';return}
+  optimized=null;$('optimizerBox').classList.remove('hidden');$('optimizerResult').innerHTML='';$('optimizerProgress').style.width='1%';$('optimize').disabled=true;$('applyOptimized').disabled=true;
+  $('optimizerStatus').textContent=`Analysiere ${usable.length} freigeschaltete Einheitentypen bis Army Cap ${fmt(armyCap)}...`;
+  const prof=enemyProfile();
+  const ranked=usable.map(u=>({...u,_cv:combatValue(u,prof),_ci:unitCostIndex(u.id)})).sort((a,b)=>(b._cv/b._ci)-(a._cv/a._ci));
+  const offense=ranked.slice().sort((a,b)=>(b.attack*(b.splash||1))-(a.attack*(a.splash||1))).slice(0,5);
+  const defense=ranked.slice().sort((a,b)=>b.defense-a.defense).slice(0,5);
+  const top=ranked.slice(0,8);
+  const recipes=[];const seen=new Set();
+  const addRecipe=(name,items)=>{const merged=new Map();for(const x of items.filter(x=>x&&x.u&&x.w>0)){const old=merged.get(x.u.id);if(old)old.w+=x.w;else merged.set(x.u.id,{u:x.u,w:x.w})}const clean=[...merged.values()];const key=clean.map(x=>x.u.id+':'+Math.round(x.w*100)).sort().join('|');if(clean.length&&!seen.has(key)){seen.add(key);recipes.push({name,items:clean})}};
+  for(const u of top.slice(0,8))addRecipe(u.name,[{u,w:1}]);
+  // Pair scan among the best enemy-specific price/performance units. Several ratios catch cheap front-line + expensive damage combinations.
+  const pairTop=top.slice(0,8),ratios=[.15,.30,.50,.70,.85];
+  for(let i=0;i<pairTop.length;i++)for(let j=i+1;j<pairTop.length;j++)for(const r of ratios)addRecipe(`${pairTop[i].name}+${pairTop[j].name} ${Math.round(r*100)}/${Math.round((1-r)*100)}`,[{u:pairTop[i],w:r},{u:pairTop[j],w:1-r}]);
+  for(const o of offense.slice(0,3))for(const d of defense.slice(0,3)){addRecipe(`${o.name}+${d.name} 70/30`,[{u:o,w:.7},{u:d,w:.3}]);addRecipe(`${o.name}+${d.name} 55/45`,[{u:o,w:.55},{u:d,w:.45}])}
+  addRecipe('Top Effizienz Mix',top.map((u,i)=>({u,w:1/(i+1)})));
+  addRecipe('Angriff/Front Mix',[...offense.slice(0,3).map((u,i)=>({u,w:.7/(i+1)})),...defense.slice(0,3).map((u,i)=>({u,w:.3/(i+1)}))]);
+  const currentItems=player.map(r=>{const u=usable.find(x=>x.id===r.id);return u&&r.qty>0?{u,w:r.qty}:null}).filter(Boolean);addRecipe('Aktuelle Verteilung',currentItems);
+  let best=null,bestIndex=Infinity,checks=0;
+  const seeds=[];
+  // Stage 1: broad but cheap scan. Keep only the best seeds and do the expensive coordinate reduction later.
+  for(let ri=0;ri<recipes.length;ri++){
+    const rec=recipes[ri];
+    let maxRows=recipeRows(rec.items,armyCap);checks++;
+    if(!simulateRows(maxRows,enemy,$('useOrder').checked,false).win){$('optimizerStatus').textContent=`Grobscan ${ri+1}/${recipes.length}: ${rec.name} – reicht bei Cap nicht`;continue}
+    let lo=1,hi=armyCap;
+    while(lo<hi){const mid=Math.floor((lo+hi)/2),rows=recipeRows(rec.items,mid);checks++;if(simulateRows(rows,enemy,$('useOrder').checked,false).win)hi=mid;else lo=mid+1}
+    const rows=recipeRows(rec.items,lo),ci=armyCosts(rows,false).index;
+    seeds.push({name:rec.name,rows,ci});seeds.sort((a,b)=>a.ci-b.ci);if(seeds.length>10)seeds.length=10;
+    $('optimizerStatus').textContent=`Grobscan ${ri+1}/${recipes.length} · beste Seed-Kosten: ${seeds.length?(seeds[0].ci*1000).toFixed(1):'—'}`;
+    $('optimizerProgress').style.width=Math.max(2,Math.round((ri+1)/recipes.length*72))+'%';
+    if(ri%4===0)await new Promise(r=>setTimeout(r,0));
+  }
+  // Stage 2: precisely reduce only the ten cheapest winning seeds.
+  for(let si=0;si<seeds.length;si++){
+    let rows=await minimizeCostRows(seeds[si].rows,()=>{checks++});
+    const sim=simulateRows(rows,enemy,$('useOrder').checked,false);checks++;
+    if(sim.win){const ci=armyCosts(rows,false).index;if(ci<bestIndex){bestIndex=ci;best=rows.map(x=>({...x}))}}
+    $('optimizerStatus').textContent=`Feinoptimierung ${si+1}/${seeds.length} · ${seeds[si].name} · bester Kostenindex: ${Number.isFinite(bestIndex)?(bestIndex*1000).toFixed(1):'—'}`;
+    $('optimizerProgress').style.width=(72+Math.round((si+1)/Math.max(1,seeds.length)*22))+'%';
+    await new Promise(r=>setTimeout(r,0));
+  }
+  // Local substitution search: trade expensive units for cheaper efficient ones if total cost drops and the fight still wins.
+  if(best){
+    let improved=true,passes=0;
+    const cheap=ranked.slice().sort((a,b)=>a._ci-b._ci).slice(0,8);
+    while(improved&&passes<2){improved=false;passes++;
+      const expensive=best.slice().sort((a,b)=>unitCostIndex(b.id)-unitCostIndex(a.id));
+      outer: for(const old of expensive){if(old.qty<=0)continue;for(const nu of cheap){if(nu.id===old.id||nu._ci>=unitCostIndex(old.id))continue;const trial=best.map(x=>({...x}));const oi=trial.findIndex(x=>x.id===old.id);trial[oi].qty--;let ni=trial.findIndex(x=>x.id===nu.id);if(ni<0){trial.push({...nu,qty:1});ni=trial.length-1}else trial[ni].qty++;if(trial[ni].qty>(Number.isFinite(nu.limit)?nu.limit:armyCap))continue;if(trial.reduce((s,x)=>s+x.qty,0)>armyCap)continue;const ordered=$('useOrder').checked?battleOrderSort(trial.filter(x=>x.qty>0)):trial.filter(x=>x.qty>0);checks++;if(armyCosts(ordered,false).index<bestIndex&&simulateRows(ordered,enemy,$('useOrder').checked,false).win){best=ordered;bestIndex=armyCosts(best,false).index;improved=true;break outer}}}
+      await new Promise(r=>setTimeout(r,0));
+    }
+  }
+  $('optimizerProgress').style.width='100%';$('optimize').disabled=false;
+  if(!best){$('optimizerStatus').innerHTML=`<span class="err">Keine siegreiche Armee innerhalb der Army Cap ${fmt(armyCap)} gefunden.</span> ${missing.length?missing.length+' freigeschaltete Einheitentyp(en) ohne Kostendaten wurden nicht bewertet.':''}`;$('optimizerResult').innerHTML='';return}
+  const final=simulateRows(best,enemy,$('useOrder').checked,false);optimized=best;
+  $('optimizerStatus').innerHTML=`Fertig nach ${fmt(checks)} Kampfsimulationen. <span class="ok">Sieg bestaetigt.</span>${missing.length?' '+missing.length+' freigeschaltete Einheitentyp(en) ohne Kostendaten wurden ausgelassen.':''}`;
+  $('optimizerResult').innerHTML=optimizerSummary(best);$('applyOptimized').disabled=false;showResult(final,best);
+}
+function applyOptimized(){if(!optimized)return;setPlayer(battleMode==='defense'?[settlementUnit(),...optimized.map(x=>({...x}))]:optimized.map(x=>({...x})));renderPlayer();$('applyOptimized').disabled=true;$('simStatus').textContent=battleMode==='defense'?'Preis/Leistung-Garrison uebernommen. Settlement Defense bleibt fest auf Position 1.':'Preis/Leistung-Armee uebernommen. Du kannst sie jetzt erneut simulieren.'}
+const B64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+function decompressFromBase64(input){if(input==null)return '';if(input==='')return null;return decompress(input.length,32,i=>B64.indexOf(input.charAt(i)))}
+function decompress(length,resetValue,getNextValue){const dictionary=[];let next,enlargeIn=4,dictSize=4,numBits=3,entry='',result=[],i,w,bits,resb,maxpower,power,c;const data={val:getNextValue(0),position:resetValue,index:1};for(i=0;i<3;i++)dictionary[i]=i;bits=0;maxpower=4;power=1;while(power!==maxpower){resb=data.val&data.position;data.position>>=1;if(data.position===0){data.position=resetValue;data.val=getNextValue(data.index++)}bits|=(resb>0?1:0)*power;power<<=1}next=bits;if(next===0){bits=0;maxpower=256;power=1;while(power!==maxpower){resb=data.val&data.position;data.position>>=1;if(data.position===0){data.position=resetValue;data.val=getNextValue(data.index++)}bits|=(resb>0?1:0)*power;power<<=1}c=String.fromCharCode(bits)}else if(next===1){bits=0;maxpower=65536;power=1;while(power!==maxpower){resb=data.val&data.position;data.position>>=1;if(data.position===0){data.position=resetValue;data.val=getNextValue(data.index++)}bits|=(resb>0?1:0)*power;power<<=1}c=String.fromCharCode(bits)}else return '';dictionary[3]=c;w=c;result.push(c);while(true){if(data.index>length)return '';bits=0;maxpower=1<<numBits;power=1;while(power!==maxpower){resb=data.val&data.position;data.position>>=1;if(data.position===0){data.position=resetValue;data.val=getNextValue(data.index++)}bits|=(resb>0?1:0)*power;power<<=1}c=bits;if(c===0){bits=0;maxpower=256;power=1;while(power!==maxpower){resb=data.val&data.position;data.position>>=1;if(data.position===0){data.position=resetValue;data.val=getNextValue(data.index++)}bits|=(resb>0?1:0)*power;power<<=1}dictionary[dictSize++]=String.fromCharCode(bits);c=dictSize-1;enlargeIn--}else if(c===1){bits=0;maxpower=65536;power=1;while(power!==maxpower){resb=data.val&data.position;data.position>>=1;if(data.position===0){data.position=resetValue;data.val=getNextValue(data.index++)}bits|=(resb>0?1:0)*power;power<<=1}dictionary[dictSize++]=String.fromCharCode(bits);c=dictSize-1;enlargeIn--}else if(c===2)return result.join('');if(enlargeIn===0){enlargeIn=1<<numBits;numBits++}if(dictionary[c]!==undefined)entry=dictionary[c];else if(c===dictSize)entry=w+w.charAt(0);else return '';result.push(entry);dictionary[dictSize++]=w+entry.charAt(0);enlargeIn--;w=entry;if(enlargeIn===0){enlargeIn=1<<numBits;numBits++}}}
+function importSave(raw){try{raw=String(raw||'').trim();if(!raw)throw new Error('Leerer Save');const data=raw[0]==='['?JSON.parse(raw):JSON.parse(decompressFromBase64(raw.replace(/\s+/g,'')));const version=data[0],run=data[2];if(!run||!Array.isArray(run.army)||!Array.isArray(run.modifiers))throw new Error('Unbekannte Save-Struktur');importedRun=run;initOptimizerFromRun(run);modeArmies={attack:rowsFromRun(run,'attack'),defense:rowsFromRun(run,'defense')};player=modeArmies[battleMode];$('sVersion').textContent=version||'?';$('difficulty').value=String(clamp(run.dfc,0,3,0));const enemyId=run.enemy||'';if(PRESETS[enemyId]){$('enemyPreset').value=enemyId;loadEnemy()}else{$('sEnemy').textContent=titleCaseId(enemyId)||'—'}const techs=(run.techs||[]).filter(x=>x.value>0).length,prayers=(run.prayers||[]).filter(x=>x.value>0).length,spells=(run.spells||[]).length,legacy=Array.isArray(data[5])?data[5].length:0,costReady=optimizerPool.filter(x=>UNIT_COSTS[x.id]).length;const attackCount=modeArmies.attack.filter(x=>x.category>0).reduce((s,x)=>s+x.qty,0),garrisonCount=modeArmies.defense.filter(x=>x.category>0).reduce((s,x)=>s+x.qty,0),sd=modeArmies.defense.find(x=>x.id==='settlement_defenses');$('saveStatus').innerHTML=`<span class="ok">Save ${esc(version)} geladen.</span> Away: ${fmt(attackCount)} · Garrison: ${fmt(garrisonCount)} · Settlement: ${sd?fmt(sd.attack)+' ATT / '+fmt(sd.defense)+' DEF':'—'} · ${optimizerPool.length} freigeschaltete Kampfeinheitentypen (${costReady} mit Preis-Daten) · Army Cap ${fmt(armyCap)} · ${techs} aktive Techs · ${prayers} Prayers · ${spells} Spells · ${legacy} Legacy-Eintraege.`;renderPlayer();updateModeUI();resetSimulation()}catch(e){$('saveStatus').innerHTML=`<span class="err">Import fehlgeschlagen:</span> ${esc(e.message)}`}}
+function populateEnemySelect(filter=''){const q=String(filter||'').trim().toLowerCase(),sel=$('enemyPreset'),current=sel.value||'orc_horith_citadel';const groups=[['locations','Fundorte / Exploration'],['factions','Fraktionen / Story'],['events','Events / versteckte Kaempfe']];sel.innerHTML='';let shown=0;for(const [gid,label] of groups){const rows=Object.values(PRESETS).filter(p=>p.group===gid&&(!q||(fightName(p)+' '+p.id).toLowerCase().includes(q)));if(!rows.length)continue;const og=document.createElement('optgroup');og.label=label;for(const p of rows){const o=document.createElement('option');o.value=p.id;o.textContent=fightName(p)+(p.level==null?'':` (Lvl ${p.level})`)+(p.hidden?' [hidden]':'');og.appendChild(o);shown++}sel.appendChild(og)}const custom=document.createElement('option');custom.value='custom';custom.textContent='Benutzerdefiniert';sel.appendChild(custom);if([...sel.options].some(o=>o.value===current))sel.value=current;else if([...sel.options].some(o=>o.value==='orc_horith_citadel'))sel.value='orc_horith_citadel';$('enemyDbCount').textContent=`${shown} / ${Object.keys(PRESETS).length} Kaempfe angezeigt`;}
+populateEnemySelect();
+$('addUnitSelect').innerHTML=UNIT_ROWS.map(r=>`<option value="${r[0]}">${r[1]} — ${CAT[r[5]]} — ${r[2]}/${r[3]}</option>`).join('');
+$('addUnit').onclick=()=>{const id=$('addUnitSelect').value;const q=clamp($('addUnitQty').value,1,60000,1);const ex=player.find(x=>x.id===id);if(ex)ex.qty+=q;else{const u=importedRun?effectiveUnit(id,importedRun):{...UNITS[id],baseAttack:UNITS[id].attack,baseDefense:UNITS[id].defense};player.push({...u,qty:q})}renderPlayer()};
+$('loadEnemy').onclick=loadEnemy;$('enemyPreset').onchange=()=>{if($('enemyPreset').value!=='custom')loadEnemy()};$('enemySearch').oninput=()=>populateEnemySelect($('enemySearch').value);$('difficulty').onchange=()=>{if($('enemyPreset').value!=='custom')loadEnemy()};$('clearEnemy').onclick=()=>{enemy=[];$('enemyPreset').value='custom';$('sEnemy').textContent='Benutzerdefiniert';renderEnemy()};$('addEnemy').onclick=()=>{enemy.push({id:'custom_'+Date.now(),name:$('eName').value.trim()||'Custom Enemy',qty:clamp($('eQty').value,1,60000,1),attack:clamp($('eAtk').value,0,999999,0),defense:clamp($('eDef').value,1,999999,1),order:clamp($('eOrder').value,1,3,1),category:clamp($('eCat').value,1,4,1),splash:clamp($('eSplash').value,1,100,1),trample:clamp($('eTrample').value,0,100,0)});$('enemyPreset').value='custom';$('sEnemy').textContent='Benutzerdefiniert';renderEnemy()};
+$('simulate').onclick=doSim;$('resetSimulation').onclick=resetSimulation;$('optimize').onclick=optimizeArmy;$('applyOptimized').onclick=applyOptimized;$('battleMode').onchange=()=>switchBattleMode($('battleMode').value);$('restoreCurrent').onclick=()=>{importedRun=null;initOptimizerFromRun(null);modeArmies={attack:CURRENT.map(x=>({...x})),defense:CURRENT_DEFENSE.map(x=>({...x}))};player=modeArmies[battleMode];$('sVersion').textContent='1.2.2';$('saveStatus').textContent='Vorgeladener Save: Away 756 · Garrison 0 · Settlement 615 ATT / 1’212 DEF · 30 freigeschaltete Kampfeinheitentypen · Army Cap 757';$('enemyPreset').value='orc_horith_citadel';$('difficulty').value='0';renderPlayer();updateModeUI();loadEnemy();resetSimulation()};$('importText').onclick=()=>importSave($('saveText').value);$('clearSaveText').onclick=()=>{$('saveText').value='';$('saveText').focus()};$('saveText').addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter'){e.preventDefault();importSave($('saveText').value)}});$('importFile').onclick=async()=>{const f=$('saveFile').files?.[0];if(!f){$('saveStatus').innerHTML='<span class="warn">Bitte zuerst eine Datei auswaehlen.</span>';return}importSave(await f.text())};
+initOptimizerFromRun(null);renderPlayer();updateModeUI();$('enemyPreset').value='orc_horith_citadel';loadEnemy();
+})();
+</script>
+</body>
+</html>
